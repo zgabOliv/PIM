@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro</title>
+</head>
+<body>
+  <h2>Cadastro</h2>
+
+  <form id="formCadastro">
+    <!-- Tipo de usuário -->
+    <label for="perfil">Tipo de usuário:</label><br>
+    <select id="perfil" required>
+      <option value="">Selecione...</option>
+      <option value="aluno">Aluno</option>
+      <option value="professor">Professor</option>
+    </select><br><br>
+
+    <!-- Nome -->
+    <label for="nome">Nome completo:</label><br>
+    <input type="text" id="nome" required><br><br>
+
+    <!-- Campos do aluno -->
+    <div id="alunoCampos">
+      <label for="curso">Curso:</label><br>
+      <input type="text" id="curso"><br><br>
+
+      <label for="periodo">Período:</label><br>
+      <input type="text" id="periodo"><br><br>
+    </div>
+
+    <!-- Campos do professor -->
+    <div id="professorCampos">
+      <label for="documento">CPF ou RG:</label><br>
+      <input type="text" id="documento"><br><br>
+    </div>
+
+    <!-- E-mail e senha -->
+    <label for="email">E-mail:</label><br>
+    <input type="email" id="email" required><br><br>
+
+    <label for="senha">Senha:</label><br>
+    <input type="password" id="senha" required><br><br>
+
+    <input type="submit" value="Cadastrar">
+  </form>
+
+  <p>Já tem uma conta? <a href="login.html">Fazer login</a></p>
+
+  <script>
+    const aluno = document.getElementById("alunoCampos");
+    const prof = document.getElementById("professorCampos");
+
+    // Esconde campos no início
+    aluno.style.display = "none";
+    prof.style.display = "none";
+
+    // Mostra/esconde campos de acordo com o tipo de usuário
+    document.getElementById("perfil").addEventListener("change", () => {
+      const tipo = document.getElementById("perfil").value;
+      aluno.style.display = tipo === "aluno" ? "block" : "none";
+      prof.style.display = tipo === "professor" ? "block" : "none";
+      document.getElementById("curso").required = tipo === "aluno";
+      document.getElementById("periodo").required = tipo === "aluno";
+      document.getElementById("documento").required = tipo === "professor";
+    });
+
+    // Alerta no envio do formulário
+    document.getElementById("formCadastro").addEventListener("submit", e => {
+      e.preventDefault();
+      alert("Cadastro realizado com sucesso!");
+    });
+  </script>
+</body>
+</html>
