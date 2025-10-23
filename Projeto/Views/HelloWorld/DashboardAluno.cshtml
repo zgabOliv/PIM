@@ -1,0 +1,17 @@
+﻿@using System.Security.Claims
+@{
+    ViewData["Title"] = "Dashboard Aluno";
+}
+
+<div class="text-center mt-5">
+    <h1>Bem-vindo, Aluno!</h1>
+    <p class="lead">Aqui você verá suas turmas e atividades.</p>
+
+    <p class="mt-4 text-muted">
+        Usuário logado: <strong>@User.FindFirst(ClaimTypes.Name)?.Value</strong>
+    </p>
+
+    <div class="mt-5">
+        <a asp-controller="HelloWorld" asp-action="Logout" class="btn btn-primary btn-lg">Sair / Logout</a>
+    </div>
+</div>
