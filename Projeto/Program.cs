@@ -51,12 +51,12 @@ internal class Program
 
         app.UseRouting();
 
-       
+
         app.UseAuthentication();
         app.UseAuthorization();
 
 
-
+        //controle
         app.MapControllerRoute(
             name: "default",
         
