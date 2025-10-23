@@ -1,0 +1,80 @@
+﻿@* Views/HelloWorld/Cadastro.cshtml *@
+@using Projeto.Models;
+@*  *@
+@{
+    ViewData["Title"] = "Cadastro";
+}
+
+<h2>Cadastro</h2>
+
+@*  *@
+@if (ViewBag.Erro != null)
+{
+    <div style="color: red; margin-bottom: 15px;">
+        @ViewBag.Erro
+    </div>
+}
+
+@*  *@
+<form method="post" asp-controller="HelloWorld" asp-action="Cadastro">
+
+    <label for="perfil">Tipo de usuário:</label><br>
+    <select id="perfil" name="perfil" required>
+        <option value="">Selecione...</option>
+        <option value="aluno">Aluno</option>
+        <option value="professor">Professor</option>
+    </select><br><br>
+
+    <label for="nome">Nome completo:</label><br>
+    @*  *@
+    <input type="text" id="nome" name="nome" required><br><br>
+
+    <div id="alunoCampos" style="display:none;">
+        <label for="curso">Curso:</label><br>
+        @*  *@
+        <input type="text" id="curso" name="curso"><br><br>
+
+        <label for="periodo">Período:</label><br>
+        <input type="text" id="periodo" name="periodo"><br><br>
+    </div>
+
+    <div id="professorCampos" style="display:none;">
+        <label for="documento">CPF ou RG:</label><br>
+        <input type="text" id="documento" name="documento"><br><br>
+    </div>
+
+    <label for="email">E-mail:</label><br>
+    <input type="email" id="email" name="email" required><br><br> @*  *@
+
+    <label for="senha">Senha:</label><br>
+    <input type="password" id="senha" name="senha" required><br><br> @*  *@
+
+    <input type="submit" value="Cadastrar">
+</form>
+
+<p>Já tem uma conta? <a asp-controller="HelloWorld" asp-action="Login">Fazer login</a></p> @*  *@
+
+<script>
+    const alunoCampos = document.getElementById("alunoCampos");
+    const professorCampos = document.getElementById("professorCampos");
+    const perfilSelect = document.getElementById("perfil");
+
+  
+    alunoCampos.style.display = "none";
+    professorCampos.style.display = "none";
+
+  
+    perfilSelect.addEventListener("change", () => {
+      const tipo = perfilSelect.value;
+
+      alunoCampos.style.display = tipo === "aluno" ? "block" : "none";
+      professorCampos.style.display = tipo === "professor" ? "block" : "none";
+
+      document.getElementById("curso").required = tipo === "aluno";
+      document.getElementById("periodo").required = tipo === "aluno";
+      document.getElementById("documento").required = tipo === "professor";
+    });
+
+  
+ 
+</script>
