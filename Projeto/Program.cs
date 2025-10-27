@@ -19,6 +19,7 @@ internal class Program
         // O código de criação de usuário TEMPORÁRIO FOI REMOVIDO DAQUI.
         // ----------------------------------------------------
         builder.Services.AddSingleton<RepositorioUsuariosJson>();
+        builder.Services.AddSingleton<RepositorioTurmasJson>();
         builder.Services.AddScoped<ServicoAutenticacao>();
 
         // ----------------------------------------------------

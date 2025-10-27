@@ -1,17 +1,44 @@
 ﻿@using System.Security.Claims
 @{
-    ViewData["Title"] = "Dashboard Aluno";
+    ViewData["Title"] = "Dashboard do Aluno";
+    var nomeUsuario = User.FindFirst(ClaimTypes.Name)?.Value;
 }
 
-<div class="text-center mt-5">
-    <h1>Bem-vindo, Aluno!</h1>
-    <p class="lead">Aqui você verá suas turmas e atividades.</p>
+<div class="container mt-5 text-center">
+    <h1 class="mb-4">Bem-vindo, @nomeUsuario 👋</h1>
+    <p class="lead text-muted">Aqui você pode acompanhar suas turmas, atividades e desempenho.</p>
 
-    <p class="mt-4 text-muted">
-        Usuário logado: <strong>@User.FindFirst(ClaimTypes.Name)?.Value</strong>
-    </p>
+    <div class="row mt-5">
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Minhas Turmas</h5>
+                    <p class="card-text">Visualize as turmas em que está matriculado.</p>
+                    <a href="#" class="btn btn-primary">Ver Turmas</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Atividades</h5>
+                    <p class="card-text">Acesse e envie suas tarefas.</p>
+                    <a href="#" class="btn btn-success">Ver Atividades</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Notas</h5>
+                    <p class="card-text">Confira suas notas e progresso.</p>
+                    <a href="#" class="btn btn-warning">Ver Notas</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="mt-5">
-        <a asp-controller="HelloWorld" asp-action="Logout" class="btn btn-primary btn-lg">Sair / Logout</a>
+        <a asp-controller="HelloWorld" asp-action="Logout" class="btn btn-outline-danger">Sair / Logout</a>
     </div>
 </div>

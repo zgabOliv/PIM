@@ -1,2 +1,49 @@
-﻿<h2>Bem-vindo, Professor!</h2>
-<p>Aqui você poderá criar turmas e publicar atividades.</p>
+﻿@using System.Security.Claims
+@{
+    ViewData["Title"] = "Dashboard do Professor";
+    var nomeUsuario = User.FindFirst(ClaimTypes.Name)?.Value;
+}
+
+<div class="container mt-5 text-center">
+    <h1 class="mb-4">Bem-vindo, Professor @nomeUsuario 👨‍🏫</h1>
+    <p class="lead text-muted">Gerencie suas turmas, publique atividades e acompanhe seus alunos.</p>
+
+    <div class="row mt-5">
+        <!-- Minhas Turmas -->
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Minhas Turmas</h5>
+                    <p class="card-text">Veja e edite as turmas que você ministra.</p>
+                    <a asp-controller="Turma" asp-action="Index" class="btn btn-primary">Gerenciar Turmas</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Criar Nova Turma -->
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Criar Nova Turma</h5>
+                    <p class="card-text">Adicione uma nova turma ao sistema.</p>
+                    <a asp-controller="Turma" asp-action="CriarTurma" class="btn btn-success">Criar Turma</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Criar Atividade -->
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Criar Atividade</h5>
+                    <p class="card-text">Publique novas atividades para os alunos.</p>
+                    <a asp-controller="Atividade" asp-action="Criar" class="btn btn-warning">Criar Atividade</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <a asp-controller="HelloWorld" asp-action="Logout" class="btn btn-outline-danger">Sair / Logout</a>
+    </div>
+</div>

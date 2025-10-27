@@ -4,4 +4,14 @@
     "SenhaHash": "$2a$12$dvcHR74rFKrt6OX5VLIP1uW3V/Ieb.UVPHIPmys3p1WYfPdHjMZw.",
     "Perfil": "usuario_padrao"
   },
- 
+  {
+    "Email": "gabrielrezende8227@gmail.com",
+    "SenhaHash": "$2a$12$hTjrGsMAORGBGhesuOGpAO4Hei1w.Crbh8ziIP0rLZFLMNISKoPSe",
+    "Perfil": "aluno"
+  },
+  {
+    "Email": "gabrielrezende879@gmail.com",
+    "SenhaHash": "$2a$12$HxvIERsA6c.aIZa4au0Alu4nDZujQuvdHpKMOkJRtx16YxhyWoBn.",
+    "Perfil": "professor"
+  }
+]

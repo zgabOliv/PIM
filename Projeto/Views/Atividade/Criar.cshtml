@@ -1,0 +1,32 @@
+﻿@model Projeto.Models.Atividade
+
+@{
+    ViewData["Title"] = "Criar Atividade";
+}
+
+<h2>Criar Nova Atividade</h2>
+
+<form asp-action="Criar" method="post">
+    <div class="form-group mb-3">
+        <label asp-for="Titulo" class="form-label">Título</label>
+        <input asp-for="Titulo" class="form-control" required />
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Descricao" class="form-label">Descrição</label>
+        <textarea asp-for="Descricao" class="form-control" rows="4" required></textarea>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Turma" class="form-label">Turma</label>
+        <input asp-for="Turma" class="form-control" required />
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="DataEntrega" class="form-label">Data de Entrega</label>
+        <input asp-for="DataEntrega" type="date" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Salvar Atividade</button>
+    <a asp-controller="Atividade" asp-action="Index" class="btn btn-secondary">Voltar</a>
+</form>
