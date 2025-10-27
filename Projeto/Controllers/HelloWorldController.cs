@@ -131,7 +131,7 @@ namespace Projeto.Controllers
             return View();
         }
 
-        // ------------------- LOGOUT -------------------
+        // ------------------- LOGOUT -------------------/
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
