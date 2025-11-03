@@ -32,6 +32,18 @@ public class EntregaController : Controller
 
         return View(vm);
     }
+    public IActionResult DownloadArquivo(string caminho)
+    {
+        if (string.IsNullOrWhiteSpace(caminho))
+            return NotFound();
+
+        var caminhoFisico = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", caminho.TrimStart('/'));
+        if (!System.IO.File.Exists(caminhoFisico))
+            return NotFound();
+
+        var nomeArquivo = Path.GetFileName(caminhoFisico);
+        return PhysicalFile(caminhoFisico, "application/octet-stream", nomeArquivo);
+    }
 
     // Método GET para o professor ver todas as entregas
     [HttpGet]
@@ -47,6 +59,7 @@ public class EntregaController : Controller
             AtividadeId = e.AtividadeId,
             NomeAluno = e.NomeAluno,
             RespostaAluno = e.RespostaAluno,
+            CaminhoArquivo = e.CaminhoArquivo,
             Nota = e.Nota,
             FeedbackProfessor = e.FeedbackProfessor
         }).ToList();
@@ -54,7 +67,20 @@ public class EntregaController : Controller
         return View(vmList); // Passa a lista para a view Corrigir
     }
 
- 
+    public IActionResult SalvarCorrecao(int id, double nota, string feedbackProfessor)
+    {
+        var entregas = _repoEntregas.Carregar();
+        var entrega = entregas.FirstOrDefault(e => e.Id == id);
+        if (entrega != null)
+        {
+            entrega.Nota = nota;
+            entrega.FeedbackProfessor = feedbackProfessor;
+            _repoEntregas.Salvar(entregas);
+        }
+
+        // volta pra mesma página ou lista de correções
+        return RedirectToAction("Corrigir");
+    }
     [HttpPost]
     public IActionResult Corrigir(EntregaCorrigirViewModel vm)
     {

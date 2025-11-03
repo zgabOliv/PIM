@@ -4,10 +4,10 @@
     {
         public string Email { get; set; } = string.Empty;
         public string SenhaHash { get; set; } = string.Empty;
-        public string Perfil { get; set; } = string.Empty; // "aluno" ou "professor"
-        public string Nome { get; set; } = string.Empty; // "aluno" ou "professor"
+        public string Perfil { get; set; } = string.Empty; 
+        public string Nome { get; set; } = string.Empty; 
 
-        // Nova propriedade
-        public int? TurmaId { get; set; } // O aluno está matriculado em qual turma
+
+        public int? TurmaId { get; set; } 
     }
 }

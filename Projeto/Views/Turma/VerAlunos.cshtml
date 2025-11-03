@@ -1,34 +1,47 @@
-﻿@model List<Projeto.Models.Usuario>
+﻿@model List<Usuario>
 
-<div class="container mt-5">
-    <h2 class="mb-4">Alunos da Turma: @ViewBag.NomeTurma 👩‍🎓👨‍🎓</h2>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">🎓 Alunos da Turma</h2>
 
-    @if (!Model.Any())
+    @if (Model != null && Model.Any())
     {
-        <div class="alert alert-warning">Nenhum aluno cadastrado nesta turma ainda.</div>
+        <div class="row justify-content-center">
+            @foreach (var aluno in Model)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow-sm border-0 rounded-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@aluno.Email</h5>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     }
     else
     {
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Usuário</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var aluno in Model)
-                {
-                    <tr>
-                        <td>@aluno.Nome</td>
-                        <td>@aluno.Email</td>
-                        <td>@aluno.Perfil</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="alert alert-warning text-center mt-3">
+            <strong>⚠ Nenhum aluno cadastrado nesta turma ainda.</strong>
+        </div>
+    }
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
     }
 
-    <a asp-controller="HelloWorld" asp-action="DashboardProfessor" class="btn btn-secondary mt-3">Voltar</a>
-</div>
+    h2 {
+        color: #333;
+    }
+
+    .card {
+        background-color: #ffffff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+</style>

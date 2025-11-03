@@ -60,7 +60,7 @@ namespace Projeto.Services
             return senhaCorreta;
         }
 
-        // Opcional: Para obter o objeto usuário logado (útil para sessões)
+     
         public Usuario ObterUsuarioLogado(string emailUsuario)
         {
             return _repo.EncontrarPorEmail(emailUsuario);

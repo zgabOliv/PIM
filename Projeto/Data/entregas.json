@@ -7,6 +7,84 @@
     "Nota": 7,
     "FeedbackProfessor": "aa",
     "TituloAtividade": "",
-    "TurmaId": null
+    "TurmaId": null,
+    "CaminhoArquivo": null
+  },
+  {
+    "Id": 5,
+    "AtividadeId": 3,
+    "NomeAluno": "gabrielrezende8222227@gmail.com",
+    "RespostaAluno": "aaa",
+    "Nota": null,
+    "FeedbackProfessor": "",
+    "TituloAtividade": "AAAA",
+    "TurmaId": 1,
+    "CaminhoArquivo": null
+  },
+  {
+    "Id": 6,
+    "AtividadeId": 3,
+    "NomeAluno": "gabrielrezende8222227@gmail.com",
+    "RespostaAluno": "aa",
+    "Nota": null,
+    "FeedbackProfessor": "",
+    "TituloAtividade": "AAAA",
+    "TurmaId": 1,
+    "CaminhoArquivo": null
+  },
+  {
+    "Id": 4,
+    "AtividadeId": 2,
+    "NomeAluno": "",
+    "RespostaAluno": "",
+    "Nota": null,
+    "FeedbackProfessor": "",
+    "TituloAtividade": "",
+    "TurmaId": null,
+    "CaminhoArquivo": null
+  },
+  {
+    "Id": 7,
+    "AtividadeId": 2,
+    "NomeAluno": "gabrielrezende8222227@gmail.com",
+    "RespostaAluno": "sadfasfsadfad",
+    "Nota": null,
+    "FeedbackProfessor": "",
+    "TituloAtividade": "AAAAsadasdasd",
+    "TurmaId": 1,
+    "CaminhoArquivo": "/uploads/Gemini_Generated_Image_z6h04ez6h04ez6h0.png"
+  },
+  {
+    "Id": 8,
+    "AtividadeId": 2,
+    "NomeAluno": "gabrielrezende8222227@gmail.com",
+    "RespostaAluno": "frqedfdsf",
+    "Nota": null,
+    "FeedbackProfessor": "",
+    "TituloAtividade": "AAAAsadasdasd",
+    "TurmaId": 1,
+    "CaminhoArquivo": "/uploads/Gemini_Generated_Image_z6h04ez6h04ez6h0.png"
+  },
+  {
+    "Id": 9,
+    "AtividadeId": 2,
+    "NomeAluno": "gabrielrezende8222227@gmail.com",
+    "RespostaAluno": "asdasdas",
+    "Nota": null,
+    "FeedbackProfessor": "",
+    "TituloAtividade": "AAAAsadasdasd",
+    "TurmaId": 1,
+    "CaminhoArquivo": "/uploads/chatbot.py"
+  },
+  {
+    "Id": 10,
+    "AtividadeId": 2,
+    "NomeAluno": "gabrielrezende8222227@gmail.com",
+    "RespostaAluno": "asdasdas",
+    "Nota": 7,
+    "FeedbackProfessor": "MUITO BOM",
+    "TituloAtividade": "AAAAsadasdasd",
+    "TurmaId": 1,
+    "CaminhoArquivo": "/uploads/chatbot.py"
   }
 ]

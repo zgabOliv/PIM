@@ -4,8 +4,7 @@
 
 @foreach (var entrega in Model)
 {
-    <form asp-action="Corrigir" method="post">
-        <!-- Use name="Id" igual ao ViewModel -->
+    <form asp-action="SalvarCorrecao" method="post">
         <input type="hidden" name="Id" value="@entrega.Id" />
 
         <div class="form-group mb-3">
@@ -17,6 +16,22 @@
             <label>Resposta do Aluno</label>
             <textarea class="form-control" rows="5" readonly>@entrega.RespostaAluno</textarea>
         </div>
+
+        @* MOSTRA O ANEXO, SE HOUVER *@
+        @if (!string.IsNullOrWhiteSpace(entrega.CaminhoArquivo))
+        {
+            <div class="form-group mb-3">
+                <label>Anexo do Aluno</label><br />
+                <a asp-action="DownloadArquivo" asp-route-caminho="@entrega.CaminhoArquivo">📎 Baixar Arquivo</a>
+
+            </div>
+        }
+        else
+        {
+            <div class="form-group mb-3 text-muted">
+                <small>Nenhum arquivo enviado pelo aluno</small>
+            </div>
+        }
 
         <div class="form-group mb-3">
             <label>Nota (0 a 10)</label>

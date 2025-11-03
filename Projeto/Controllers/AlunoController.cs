@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using Projeto.Data;
 using Projeto.Models;
-using System.Security.Claims;
 using Projeto.ViewModels;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Intrinsics.X86;
+using System.Security.Claims;
 
 public class AlunoController : Controller
 {
@@ -32,7 +33,6 @@ public class AlunoController : Controller
 
         return View(usuario); 
     }
-
 
     [HttpGet]
     public IActionResult Atividades()
@@ -68,17 +68,33 @@ public class AlunoController : Controller
 
     // Enviar resposta da atividade (POST)
     [HttpPost]
-    public IActionResult EnviarAtividade(EntregaAlunoViewModel vm)
+    public async Task<IActionResult> EnviarAtividade(EntregaAlunoViewModel vm)
     {
         var emailAluno = User.FindFirst(ClaimTypes.Name)?.Value;
-        var aluno = _repoUsuarios.CarregarUsuarios()
-                                 .FirstOrDefault(u => u.Email == emailAluno);
-
+        var aluno = _repoUsuarios.CarregarUsuarios().FirstOrDefault(u => u.Email == emailAluno);
         if (aluno == null) return Unauthorized();
 
-        var entregas = _repoEntregas.Carregar();
+        string? caminhoArquivo = null;
 
-        // garantir id único e salvar também o título da atividade (facilita as notas)
+        // Salvar arquivo, se houver
+        if (vm.ArquivoAluno != null && vm.ArquivoAluno.Length > 0)
+        {
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = Path.GetFileName(vm.ArquivoAluno.FileName);
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await vm.ArquivoAluno.CopyToAsync(stream);
+            }
+
+            caminhoArquivo = "/uploads/" + fileName; // caminho virtual
+        }
+
+        var entregas = _repoEntregas.Carregar();
         var novoId = entregas.Any() ? entregas.Max(e => e.Id) + 1 : 1;
         var atividade = _repoAtividades.Carregar().FirstOrDefault(a => a.Id == vm.AtividadeId);
 
@@ -91,13 +107,15 @@ public class AlunoController : Controller
             Nota = null,
             FeedbackProfessor = string.Empty,
             TituloAtividade = atividade?.Titulo ?? string.Empty,
-            TurmaId = aluno.TurmaId
+            TurmaId = aluno.TurmaId,
+            CaminhoArquivo = caminhoArquivo
         });
 
         _repoEntregas.Salvar(entregas);
 
         return RedirectToAction("Atividades");
     }
+
 
     // notas do aluno 
     [HttpGet]
@@ -116,16 +134,44 @@ public class AlunoController : Controller
 
         // Pega todas as entregas do aluno
         var entregasAluno = _repoEntregas.Carregar()
-            .Where(e => e.NomeAluno == aluno.Nome)
-            .Select(e => new EntregaViewNota
-            {
-                AtividadeId = e.AtividadeId,
-                RespostaAluno = e.RespostaAluno,
-                Nota = e.Nota,
-                FeedbackProfessor = e.FeedbackProfessor
-            })
-            .ToList();
+       .Where(e => e.NomeAluno == aluno.Email) // filtra pelo email do aluno
+       .Select(e => new EntregaViewNota
+       {
+           AtividadeId = e.AtividadeId,
+           RespostaAluno = e.RespostaAluno,
+           Nota = e.Nota,
+           FeedbackProfessor = e.FeedbackProfessor
+       })
+       .ToList();
 
         return View(entregasAluno);
+    }   
+        public async Task<IActionResult> Upload(EntregaAlunoViewModel vm)
+        {
+            if (vm.ArquivoAluno != null && vm.ArquivoAluno.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                var fileName = Path.GetFileName(vm.ArquivoAluno.FileName);
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await vm.ArquivoAluno.CopyToAsync(stream);
+                }
+
+                // salva caminho relativo com barra inicial
+                vm.CaminhoArquivo = "/uploads/" + fileName;
+                ViewBag.Mensagem = "Arquivo enviado com sucesso!";
+                ViewBag.CaminhoArquivo = vm.CaminhoArquivo; // vai preencher o campo oculto no form
+            }
+            else
+            {
+                ViewBag.Mensagem = "Nenhum arquivo selecionado.";
+            }
+
+            return View("EnviarAtividade", vm); // volta pra mesma view
+        }
     }
-} 

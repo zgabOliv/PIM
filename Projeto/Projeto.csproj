@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="ViewModel\EntregaAlunoViewModelCópia.cs" />
+    <None Include="ViewModel\EntregaAlunoViewModelCopia.cs" />
   </ItemGroup>
 
   <ItemGroup>

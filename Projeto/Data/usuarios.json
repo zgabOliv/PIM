@@ -40,5 +40,12 @@
     "Perfil": "aluno",
     "Nome": "",
     "TurmaId": 1
+  },
+  {
+    "Email": "jorge22@gmail.com",
+    "SenhaHash": "$2a$12$XcS4if8lVKMBiGn7fGUSlOKV8FswZ1fxBhpWFv0zQcvHh0Vez0lI.",
+    "Perfil": "aluno",
+    "Nome": "",
+    "TurmaId": 1
   }
 ]

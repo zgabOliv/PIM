@@ -13,21 +13,21 @@ public class TurmaController : Controller
         _repoUsuarios = new RepositorioUsuariosJson();  
     }
 
-    public IActionResult VerAlunos(int idTurma)
+    public IActionResult VerAlunos(int id)
     {
-        // pega a turma
-        var turma = _repo.Listar().FirstOrDefault(t => t.Id == idTurma);
-        if (turma == null)
-            return NotFound();
+        Console.WriteLine($"[DEBUG] Entrou em VerAlunos com id = {id}");
 
-        // pega todos os usuários
-        var usuarios = _repoUsuarios.CarregarUsuarios();
+        var todosUsuarios = _repoUsuarios.CarregarUsuarios();
+        Console.WriteLine($"[DEBUG] Total de usuários carregados: {todosUsuarios.Count}");
 
-        // filtra os alunos da turma
-        var alunos = usuarios.Where(u => u.TurmaId == idTurma && u.Perfil == "Aluno").ToList();
+        var alunosDaTurma = todosUsuarios
+            .Where(u => u.TurmaId == id && u.Perfil == "aluno")
+            .ToList();
 
-        ViewBag.NomeTurma = turma.Nome;
-        return View(alunos);
+        Console.WriteLine($"[DEBUG] Encontrados {alunosDaTurma.Count} alunos na turma {id}");
+
+        ViewBag.NomeTurma = "UNIP";
+        return View(alunosDaTurma);
     }
 
 
