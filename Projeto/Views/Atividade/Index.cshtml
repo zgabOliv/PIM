@@ -1,0 +1,29 @@
+﻿@model List<Projeto.Models.Atividade>
+
+<h2>Atividades</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Descrição</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Id</td>
+                <td>@a.Titulo</td>
+                <td>@a.Descricao</td>
+                <td>
+                    <a asp-controller="Entrega" asp-action="Corrigir" asp-route-id="@a.Id" class="btn btn-success">
+                        Corrigir Atividade
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

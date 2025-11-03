@@ -1,0 +1,34 @@
+﻿@model List<Projeto.Models.Usuario>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Alunos da Turma: @ViewBag.NomeTurma 👩‍🎓👨‍🎓</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning">Nenhum aluno cadastrado nesta turma ainda.</div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Usuário</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var aluno in Model)
+                {
+                    <tr>
+                        <td>@aluno.Nome</td>
+                        <td>@aluno.Email</td>
+                        <td>@aluno.Perfil</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <a asp-controller="HelloWorld" asp-action="DashboardProfessor" class="btn btn-secondary mt-3">Voltar</a>
+</div>

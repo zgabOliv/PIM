@@ -1,7 +1,11 @@
 ﻿@using System.Security.Claims
+@model Projeto.Models.Usuario
+
 @{
     ViewData["Title"] = "Dashboard do Aluno";
-    var nomeUsuario = User.FindFirst(ClaimTypes.Name)?.Value;
+    var nomeUsuario = Model.Email; // ou Model.Nome se tiver
+    var turmas = ViewBag.Turmas as List<Projeto.Models.Turma>;
+    var atividades = ViewBag.Atividades as List<Projeto.Models.Atividade>;
 }
 
 <div class="container mt-5 text-center">
@@ -9,33 +13,87 @@
     <p class="lead text-muted">Aqui você pode acompanhar suas turmas, atividades e desempenho.</p>
 
     <div class="row mt-5">
+        <!-- Minhas Turmas -->
         <div class="col-md-4 mb-3">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">Minhas Turmas</h5>
                     <p class="card-text">Visualize as turmas em que está matriculado.</p>
-                    <a href="#" class="btn btn-primary">Ver Turmas</a>
+                    <a href="#turmasSection" class="btn btn-primary">Ver Turmas</a>
                 </div>
             </div>
         </div>
+
+        <!-- Atividades -->
         <div class="col-md-4 mb-3">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">Atividades</h5>
                     <p class="card-text">Acesse e envie suas tarefas.</p>
-                    <a href="#" class="btn btn-success">Ver Atividades</a>
+                    <a asp-controller="Aluno" asp-action="Atividades" class="btn btn-success">Ver Atividades</a>
                 </div>
             </div>
         </div>
+
+        <!-- Notas -->
         <div class="col-md-4 mb-3">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">Notas</h5>
                     <p class="card-text">Confira suas notas e progresso.</p>
-                    <a href="#" class="btn btn-warning">Ver Notas</a>
+                    <a asp-controller="Aluno" asp-action="Notas" class="btn btn-warning">Ver Notas</a>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Seção Minhas Turmas -->
+    <div id="turmasSection" class="mt-5">
+        <h3>Minhas Turmas</h3>
+        @if (turmas != null && turmas.Any())
+        {
+            <ul class="list-group">
+                @foreach (var t in turmas)
+                {
+                    <li class="list-group-item">@t.Nome - @t.Curso</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Nenhuma turma encontrada.</p>
+        }
+    </div>
+
+    <!-- Seção Atividades -->
+    <div id="atividadesSection" class="mt-5">
+        <h3>Atividades</h3>
+        @if (atividades != null && atividades.Any())
+        {
+            <ul class="list-group">
+                @foreach (var a in atividades)
+                {
+                    <li class="list-group-item">
+                        <strong>@a.Titulo</strong> - Entrega: @a.DataEntrega.ToShortDateString()
+                        <a class="btn btn-sm btn-primary float-end"
+                           asp-controller="Entrega"
+                           asp-action="Criar"
+                           asp-route-atividadeId="@a.Id">Enviar</a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Nenhuma atividade encontrada.</p>
+        }
+    </div>
+
+    <!-- Seção Notas (opcional) -->
+    <div id="notasSection" class="mt-5">
+        <h3>Notas</h3>
+        @* Aqui você pode carregar notas via ViewBag ou criar uma lista de Entregas filtradas *@
+        <p>Em breve...</p>
     </div>
 
     <div class="mt-5">

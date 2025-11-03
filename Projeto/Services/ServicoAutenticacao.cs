@@ -1,7 +1,8 @@
 ﻿using BCrypt.Net;
 using Projeto.Models;
 using System;
-using Projeto.Data; 
+using Projeto.Data;
+using System.CodeDom.Compiler;
 
 namespace Projeto.Services 
 {
@@ -24,7 +25,7 @@ namespace Projeto.Services
         /// </summary>
         /// <param name="email">O email do usuário (usado como identificador).</param>
         /// <param name="senha">A senha em texto plano (do formulário).</param>
-        public void RegistrarNovoUsuario(string email, string senha, string perfil)
+        public void RegistrarNovoUsuario(string email, string senha, string perfil, int? turmaId = null, string nome = "")
         {
             // 1. Gera o Hash da senha usando BCrypt.
             string senhaHash = BCrypt.Net.BCrypt.HashPassword(senha, workFactor: 12);
@@ -33,7 +34,8 @@ namespace Projeto.Services
             {
                 Email = email, // Usa o campo Email
                 SenhaHash = senhaHash, // Usa o campo SenhaHash
-                Perfil = perfil // Define um perfil padrão (ajuste se necessário)
+                Perfil = perfil, // Define um perfil padrão (ajuste se necessário)
+                TurmaId = turmaId
             };
 
             // 2. Chama o Repositório para salvar o novo usuário no arquivo JSON

@@ -1,0 +1,14 @@
+﻿@model Projeto.ViewModels.EntregaAlunoViewModel
+
+<h2>Enviar Resposta - @Model.TituloAtividade</h2>
+
+<form asp-action="Criar" method="post">
+    <input type="hidden" asp-for="AtividadeId" />
+    <div class="form-group mb-3">
+        <label asp-for="RespostaAluno" class="form-label">Sua Resposta</label>
+        <textarea asp-for="RespostaAluno" class="form-control" rows="5" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Enviar</button>
+    <a asp-controller="HelloWorld" asp-action="DashboardAluno" class="btn btn-secondary">Voltar</a>
+</form>

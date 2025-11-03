@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+
 @{
     ViewData["Title"] = "Dashboard do Professor";
     var nomeUsuario = User.FindFirst(ClaimTypes.Name)?.Value;
@@ -39,6 +40,31 @@
                     <p class="card-text">Publique novas atividades para os alunos.</p>
                     <a asp-controller="Atividade" asp-action="Criar" class="btn btn-warning">Criar Atividade</a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ver Alunos -->
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Alunos da Turma</h5>
+                <p class="card-text">Veja todos os alunos cadastrados em suas turmas.</p>
+                <a asp-controller="Turma" asp-action="VerAlunos" asp-route-idTurma="1" class="btn btn-info">
+                    Ver Alunos da Turma
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Atividades Criadas</h5>
+                <p class="card-text">Veja, edite ou corrija as atividades já publicadas.</p>
+                <a asp-controller="Atividade" asp-action="Index" class="btn btn-info">Ver Atividades</a>
             </div>
         </div>
     </div>

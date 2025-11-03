@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Projeto.Services;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Projeto.Data;
+using Projeto.Models;
+using Projeto.Services;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Projeto.Controllers
 {
@@ -84,24 +86,31 @@ namespace Projeto.Controllers
 
         // ------------------- CADASTRO -------------------
         [HttpGet]
+   
+
         public IActionResult Cadastro()
         {
+            var repoTurmas = new RepositorioTurmasJson();
+            ViewBag.Turmas = repoTurmas.Listar();
             return View();
         }
-
         [HttpPost]
-        public IActionResult Cadastro(string email, string senha, string perfil)
+        [HttpPost]
+        public IActionResult Cadastro(string nome, string email, string senha, string perfil, int? turmaId)
         {
+            var repoTurmas = new RepositorioTurmasJson();
+            ViewBag.Turmas = repoTurmas.Listar();
+
             try
             {
-                if (!(perfil.Equals("aluno", StringComparison.OrdinalIgnoreCase) ||
-                      perfil.Equals("professor", StringComparison.OrdinalIgnoreCase)))
+                if (perfil.Equals("aluno", StringComparison.OrdinalIgnoreCase) && turmaId.HasValue)
                 {
-                    ViewBag.Erro = "Por favor, selecione um tipo de usuário (Aluno ou Professor).";
-                    return View();
+                    _authService.RegistrarNovoUsuario(email, senha, perfil, turmaId.Value, nome);
                 }
-
-                _authService.RegistrarNovoUsuario(email, senha, perfil);
+                else
+                {
+                    _authService.RegistrarNovoUsuario(email, senha, perfil, null, nome);
+                }
 
                 TempData["MensagemSucesso"] = "Cadastro realizado com sucesso! Faça login.";
                 return RedirectToAction("Login");
@@ -118,18 +127,47 @@ namespace Projeto.Controllers
             }
         }
 
+
+
+
         // ------------------- DASHBOARDS -------------------
         [HttpGet]
         public IActionResult DashboardAluno()
         {
-            return View();
+            // 1. Obter o usuário logado
+            var emailUsuario = User.FindFirst(ClaimTypes.Name)?.Value;
+            var usuario = _authService.ObterUsuarioLogado(emailUsuario);
+
+            if (usuario == null) return RedirectToAction("Login");
+
+            // 2. Buscar a turma do aluno
+            var turmasRepo = new RepositorioTurmasJson();
+            var turmaAluno = turmasRepo.Listar().FirstOrDefault(t => t.Id == usuario.TurmaId);
+
+            // 3. Buscar atividades da turma do aluno
+            var atividadesRepo = new RepositorioAtividades();
+            var atividadesAluno = turmaAluno != null
+                ? atividadesRepo.Carregar().Where(a => a.TurmaId == turmaAluno.Id).ToList()
+                : new List<Atividade>();
+
+            ViewBag.Turma = turmaAluno;
+            ViewBag.Atividades = atividadesAluno;
+            return View(usuario);
+
         }
+
 
         [HttpGet]
         public IActionResult DashboardProfessor()
         {
             return View();
         }
+        public IActionResult Perguntar(string pergunta)
+        {
+            var resposta = ChatbotService.ObterResposta(pergunta);
+            return Json(new { resposta });
+        }
+
 
         // ------------------- LOGOUT -------------------//
         [HttpGet]

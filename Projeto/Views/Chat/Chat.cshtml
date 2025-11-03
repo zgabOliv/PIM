@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Chatbot - Ajuda Rápida";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">🤖 Chatbot - Ajuda da Plataforma</h2>
+
+    <div id="chat-box" class="border rounded p-3 mb-3" style="height: 400px; overflow-y: auto;">
+        <div class="text-muted">Chatbot: Olá! Como posso ajudar você hoje?</div>
+    </div>
+
+    <form id="chat-form">
+        <div class="input-group">
+            <input type="text" id="pergunta" class="form-control" placeholder="Digite sua pergunta..." required />
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById("chat-form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const pergunta = document.getElementById("pergunta").value;
+        const chatBox = document.getElementById("chat-box");
+
+        chatBox.innerHTML += `<div><b>Você:</b> ${pergunta}</div>`;
+
+        const response = await fetch('/Chat/Perguntar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `pergunta=${encodeURIComponent(pergunta)}`
+        });
+
+        const data = await response.json();
+        chatBox.innerHTML += `<div class='text-muted'><b>Chatbot:</b> ${data.resposta}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+        document.getElementById("pergunta").value = '';
+    });
+</script>

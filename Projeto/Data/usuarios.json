@@ -2,16 +2,43 @@
   {
     "Email": "admin@site.com",
     "SenhaHash": "$2a$12$dvcHR74rFKrt6OX5VLIP1uW3V/Ieb.UVPHIPmys3p1WYfPdHjMZw.",
-    "Perfil": "usuario_padrao"
+    "Perfil": "usuario_padrao",
+    "Nome": "",
+    "TurmaId": null
   },
   {
     "Email": "gabrielrezende8227@gmail.com",
     "SenhaHash": "$2a$12$hTjrGsMAORGBGhesuOGpAO4Hei1w.Crbh8ziIP0rLZFLMNISKoPSe",
-    "Perfil": "aluno"
+    "Perfil": "aluno",
+    "Nome": "",
+    "TurmaId": null
   },
   {
     "Email": "gabrielrezende879@gmail.com",
     "SenhaHash": "$2a$12$HxvIERsA6c.aIZa4au0Alu4nDZujQuvdHpKMOkJRtx16YxhyWoBn.",
-    "Perfil": "professor"
+    "Perfil": "professor",
+    "Nome": "",
+    "TurmaId": null
+  },
+  {
+    "Email": "gabrielrezende82227@gmail.com",
+    "SenhaHash": "$2a$12$y6XVHcLCAvqg4m9ynZxUouvFec5GdR41LZIhYoATcOcnqwJdtlzuy",
+    "Perfil": "aluno",
+    "Nome": "",
+    "TurmaId": null
+  },
+  {
+    "Email": "gabrielrezende822227@gmail.com",
+    "SenhaHash": "$2a$12$1wPNmJAvksq.T4r9fAb6k.5qwYGY7wZ8YL44rK0NqTzQaedDrkvK6",
+    "Perfil": "aluno",
+    "Nome": "",
+    "TurmaId": null
+  },
+  {
+    "Email": "gabrielrezende8222227@gmail.com",
+    "SenhaHash": "$2a$12$09rrtqcSxfgx2rMXsOVWUuF3woQVd6JLa7tQ0/aeJuXjk2iP5ylRW",
+    "Perfil": "aluno",
+    "Nome": "",
+    "TurmaId": 1
   }
 ]

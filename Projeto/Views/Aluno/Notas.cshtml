@@ -1,0 +1,32 @@
+﻿@model List<Projeto.ViewModels.EntregaViewNota>
+
+<h2>Minhas Notas</h2>
+
+@if (!Model.Any())
+{
+    <p>Você ainda não entregou nenhuma atividade.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Atividade</th>
+                <th>Resposta</th>
+                <th>Nota</th>
+                <th>Feedback</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in Model)
+            {
+                <tr>
+                    <td>@e.AtividadeId</td>
+                    <td>@e.RespostaAluno</td>
+                    <td>@(e.Nota.HasValue? e.Nota.Value.ToString("0.0") : "Não corrigida")</td>
+                    <td>@e.FeedbackProfessor</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

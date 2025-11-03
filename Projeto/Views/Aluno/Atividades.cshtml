@@ -1,0 +1,35 @@
+﻿@model List<Projeto.Models.Atividade>
+
+@{
+    ViewData["Title"] = "Atividades Disponíveis";
+}
+
+<div class="container mt-5">
+    <h2>Atividades da sua Turma</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <ul class="list-group mt-4">
+            @foreach (var a in Model)
+            {
+                <li class="list-group-item">
+                    <strong>@a.Titulo</strong> - Entrega: @a.DataEntrega.ToShortDateString()
+                    <a class="btn btn-sm btn-primary float-end"
+                       asp-controller="Aluno"
+                       asp-action="EnviarAtividade"
+                       asp-route-atividadeId="@a.Id">Enviar</a>
+                </li>
+            }
+
+            }
+        </ul>
+    }
+    else
+    {
+        <p class="mt-4">Nenhuma atividade disponível no momento.</p>
+    }
+
+    <div class="mt-4">
+        <a asp-controller="Aluno" asp-action="Dashboard" class="btn btn-secondary">Voltar ao Dashboard</a>
+    </div>
+</div>

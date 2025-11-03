@@ -1,0 +1,33 @@
+﻿@model List<Projeto.ViewModels.EntregaCorrigirViewModel>
+
+<h2>Corrigir Atividades</h2>
+
+@foreach (var entrega in Model)
+{
+    <form asp-action="Corrigir" method="post">
+        <!-- Use name="Id" igual ao ViewModel -->
+        <input type="hidden" name="Id" value="@entrega.Id" />
+
+        <div class="form-group mb-3">
+            <label>Aluno</label>
+            <input value="@entrega.NomeAluno" class="form-control" readonly />
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Resposta do Aluno</label>
+            <textarea class="form-control" rows="5" readonly>@entrega.RespostaAluno</textarea>
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Nota (0 a 10)</label>
+            <input name="Nota" type="number" step="0.1" min="0" max="10" value="@entrega.Nota" class="form-control" required />
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Feedback do Professor</label>
+            <textarea name="FeedbackProfessor" class="form-control" rows="3">@entrega.FeedbackProfessor</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success mb-5">Salvar Correção</button>
+    </form>
+}

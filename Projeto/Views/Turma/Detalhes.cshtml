@@ -1,10 +1,21 @@
-﻿@model Turma
+﻿@{
+    var turma = ViewBag.Turma;
+    var alunos = ViewBag.Alunos;
+}
 
-<h2>Detalhes da Turma</h2>
-<p><strong>ID:</strong> @Model.Id</p>
-<p><strong>Nome:</strong> @Model.Nome</p>
-<p><strong>Curso:</strong> @Model.Curso</p>
-<p><strong>Período:</strong> @Model.Periodo</p>
-<p><strong>Ano:</strong> @Model.Ano</p>
+<h2>@turma.Nome - @turma.Curso</h2>
 
-<a href="/Turma/Index" class="btn btn-secondary">Voltar</a>
+<h3>Alunos cadastrados:</h3>
+@if (alunos.Count == 0)
+{
+    <p>Nenhum aluno cadastrado ainda.</p>
+}
+else
+{
+    <ul>
+        @foreach (var aluno in alunos)
+        {
+            <li>@aluno.Nome (@aluno.Email)</li>
+        }
+    </ul>
+}
