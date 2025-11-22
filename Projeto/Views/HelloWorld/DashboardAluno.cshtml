@@ -3,100 +3,60 @@
 
 @{
     ViewData["Title"] = "Dashboard do Aluno";
-    var nomeUsuario = Model.Email; // ou Model.Nome se tiver
+    var nomeUsuario = Model.Nome;
     var turmas = ViewBag.Turmas as List<Projeto.Models.Turma>;
     var atividades = ViewBag.Atividades as List<Projeto.Models.Atividade>;
 }
 
-<div class="container mt-5 text-center">
-    <h1 class="mb-4">Bem-vindo, @nomeUsuario 👋</h1>
-    <p class="lead text-muted">Aqui você pode acompanhar suas turmas, atividades e desempenho.</p>
+<div class="container py-5">
 
-    <div class="row mt-5">
-        <!-- Minhas Turmas -->
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Minhas Turmas</h5>
-                    <p class="card-text">Visualize as turmas em que está matriculado.</p>
-                    <a href="#turmasSection" class="btn btn-primary">Ver Turmas</a>
+    <!-- Cabeçalho -->
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Bem-vindo, @nomeUsuario 👋</h1>
+        <p class="text-muted">Aqui você pode acompanhar suas turmas, atividades e notas.</p>
+    </div>
+
+    <!-- Cards principais -->
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-semibold">Minhas Turmas</h5>
+                    <p class="text-muted small">Visualize as turmas onde você está matriculado.</p>
+                    <a asp-controller="Aluno" asp-action="Turmas" asp-route-id="@Model.TurmaId" class="btn btn-primary w-100">
+                        Ver Turma
+                    </a>
+                    </a>
+
                 </div>
             </div>
         </div>
 
-        <!-- Atividades -->
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Atividades</h5>
-                    <p class="card-text">Acesse e envie suas tarefas.</p>
-                    <a asp-controller="Aluno" asp-action="Atividades" class="btn btn-success">Ver Atividades</a>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-semibold">Atividades</h5>
+                    <p class="text-muted small">Acesse, envie e acompanhe suas tarefas.</p>
+                    <a asp-controller="Aluno" asp-action="Atividades" class="btn btn-success w-100">Ver Atividades</a>
                 </div>
             </div>
         </div>
 
-        <!-- Notas -->
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Notas</h5>
-                    <p class="card-text">Confira suas notas e progresso.</p>
-                    <a asp-controller="Aluno" asp-action="Notas" class="btn btn-warning">Ver Notas</a>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-semibold">Notas</h5>
+                    <p class="text-muted small">Verifique seu desempenho.</p>
+                    <a asp-controller="Aluno" asp-action="Notas" class="btn btn-warning w-100">Ver Notas</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Seção Minhas Turmas -->
-    <div id="turmasSection" class="mt-5">
-        <h3>Minhas Turmas</h3>
-        @if (turmas != null && turmas.Any())
-        {
-            <ul class="list-group">
-                @foreach (var t in turmas)
-                {
-                    <li class="list-group-item">@t.Nome - @t.Curso</li>
-                }
-            </ul>
-        }
-        else
-        {
-            <p>Nenhuma turma encontrada.</p>
-        }
+
+    <!-- Logout -->
+    <div class="text-center mt-5">
+        <a asp-controller="HelloWorld" asp-action="Logout" class="btn btn-outline-danger px-4">Sair</a>
     </div>
 
-    <!-- Seção Atividades -->
-    <div id="atividadesSection" class="mt-5">
-        <h3>Atividades</h3>
-        @if (atividades != null && atividades.Any())
-        {
-            <ul class="list-group">
-                @foreach (var a in atividades)
-                {
-                    <li class="list-group-item">
-                        <strong>@a.Titulo</strong> - Entrega: @a.DataEntrega.ToShortDateString()
-                        <a class="btn btn-sm btn-primary float-end"
-                           asp-controller="Entrega"
-                           asp-action="Criar"
-                           asp-route-atividadeId="@a.Id">Enviar</a>
-                    </li>
-                }
-            </ul>
-        }
-        else
-        {
-            <p>Nenhuma atividade encontrada.</p>
-        }
-    </div>
-
-    <!-- Seção Notas (opcional) -->
-    <div id="notasSection" class="mt-5">
-        <h3>Notas</h3>
-        @* Aqui você pode carregar notas via ViewBag ou criar uma lista de Entregas filtradas *@
-        <p>Em breve...</p>
-    </div>
-
-    <div class="mt-5">
-        <a asp-controller="HelloWorld" asp-action="Logout" class="btn btn-outline-danger">Sair / Logout</a>
-    </div>
 </div>

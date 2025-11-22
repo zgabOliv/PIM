@@ -10,7 +10,7 @@ namespace Projeto.Data
     {
         private readonly string _caminhoArquivo = "Data/turmas.json";
 
-        private List<Turma> CarregarTurmas()
+        public List<Turma> CarregarTurmas()
         {
             if (!File.Exists(_caminhoArquivo))
                 return new List<Turma>();
@@ -19,7 +19,7 @@ namespace Projeto.Data
             return JsonSerializer.Deserialize<List<Turma>>(json) ?? new List<Turma>();
         }
 
-        private void SalvarTurmas(List<Turma> turmas)
+        public void SalvarTurmas(List<Turma> turmas)
         {
             var diretorio = Path.GetDirectoryName(_caminhoArquivo);
             if (!string.IsNullOrEmpty(diretorio) && !Directory.Exists(diretorio))
@@ -33,11 +33,14 @@ namespace Projeto.Data
         {
             return CarregarTurmas();
         }
-
         public void Adicionar(Turma novaTurma)
         {
             var turmas = CarregarTurmas();
-            novaTurma.Id = turmas.Count + 1;
+
+            novaTurma.Id = turmas.Any()
+                ? turmas.Max(t => t.Id) + 1
+                : 1;
+
             turmas.Add(novaTurma);
             SalvarTurmas(turmas);
         }

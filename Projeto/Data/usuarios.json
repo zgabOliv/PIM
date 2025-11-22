@@ -1,51 +1,101 @@
 [
   {
-    "Email": "admin@site.com",
-    "SenhaHash": "$2a$12$dvcHR74rFKrt6OX5VLIP1uW3V/Ieb.UVPHIPmys3p1WYfPdHjMZw.",
-    "Perfil": "usuario_padrao",
-    "Nome": "",
-    "TurmaId": null
-  },
-  {
-    "Email": "gabrielrezende8227@gmail.com",
-    "SenhaHash": "$2a$12$hTjrGsMAORGBGhesuOGpAO4Hei1w.Crbh8ziIP0rLZFLMNISKoPSe",
-    "Perfil": "aluno",
-    "Nome": "",
-    "TurmaId": null
-  },
-  {
     "Email": "gabrielrezende879@gmail.com",
     "SenhaHash": "$2a$12$HxvIERsA6c.aIZa4au0Alu4nDZujQuvdHpKMOkJRtx16YxhyWoBn.",
     "Perfil": "professor",
-    "Nome": "",
-    "TurmaId": null
+    "Nome": "Gabriel Rezende",
+    "AlunoId": "",
+    "TurmaId": 1,
+    "Id": 7
   },
   {
     "Email": "gabrielrezende82227@gmail.com",
     "SenhaHash": "$2a$12$y6XVHcLCAvqg4m9ynZxUouvFec5GdR41LZIhYoATcOcnqwJdtlzuy",
     "Perfil": "aluno",
     "Nome": "",
-    "TurmaId": null
+    "AlunoId": "",
+    "TurmaId": 2,
+    "Id": 1
   },
   {
     "Email": "gabrielrezende822227@gmail.com",
     "SenhaHash": "$2a$12$1wPNmJAvksq.T4r9fAb6k.5qwYGY7wZ8YL44rK0NqTzQaedDrkvK6",
     "Perfil": "aluno",
     "Nome": "",
-    "TurmaId": null
+    "AlunoId": "",
+    "TurmaId": 1,
+    "Id": 2
   },
   {
     "Email": "gabrielrezende8222227@gmail.com",
     "SenhaHash": "$2a$12$09rrtqcSxfgx2rMXsOVWUuF3woQVd6JLa7tQ0/aeJuXjk2iP5ylRW",
     "Perfil": "aluno",
-    "Nome": "",
-    "TurmaId": 1
+    "Nome": "Gabriel Rezende",
+    "AlunoId": "",
+    "TurmaId": 1,
+    "Id": 3
   },
   {
     "Email": "jorge22@gmail.com",
     "SenhaHash": "$2a$12$XcS4if8lVKMBiGn7fGUSlOKV8FswZ1fxBhpWFv0zQcvHh0Vez0lI.",
     "Perfil": "aluno",
     "Nome": "",
-    "TurmaId": 1
+    "AlunoId": "",
+    "TurmaId": 1,
+    "Id": 4
+  },
+  {
+    "Email": "jorge222@gmail.com",
+    "SenhaHash": "$2a$12$5rbgXrB/eiAHH9aYUdtAC.wwBha6Jm1R/l.LIHdnpXjgjMz8hJRb.",
+    "Perfil": "aluno",
+    "Nome": "Jorge Everton",
+    "AlunoId": "",
+    "TurmaId": 1,
+    "Id": 5
+  },
+  {
+    "Email": "alaneverton1@gmail.com",
+    "SenhaHash": "$2a$12$81tBNtSEMeDxsccphbp.0eFrHxqJgH964C5NgGpWqnGu.k0iUh47.",
+    "Perfil": "professor",
+    "Nome": "alan everton",
+    "AlunoId": "",
+    "TurmaId": 2,
+    "Id": 6
+  },
+  {
+    "Email": "teste123@gmail.com",
+    "SenhaHash": "$2a$12$fB2Z41uQ8AaQoCRM24xqXuRJJw.9eneCuPUjvcJo7CNP6LqCmUuY2",
+    "Perfil": "aluno",
+    "Nome": "testeee",
+    "AlunoId": "",
+    "TurmaId": 2,
+    "Id": 8
+  },
+  {
+    "Email": "caualopes22@gmail.com",
+    "SenhaHash": "$2a$12$H9Gm4gIDf2d3MFGgvdTTA.c2c06t62efvgm408fkvVVyKnAggiS1e",
+    "Perfil": "aluno",
+    "Nome": "caua lopes",
+    "AlunoId": "",
+    "TurmaId": 1,
+    "Id": 10
+  },
+  {
+    "Email": "cleberson22@gmail.com",
+    "SenhaHash": "$2a$12$EoIHJdzH6FKkWx85nI4VROe0HTgfxpbxJjB1P3qU8wy06bj9vrz3q",
+    "Perfil": "professor",
+    "Nome": "cleberson",
+    "AlunoId": "",
+    "TurmaId": 3,
+    "Id": 9
+  },
+  {
+    "Email": "teste1234@gmail.com",
+    "SenhaHash": "$2a$12$I48cIeDM.z7SNFkSBgsI/Ovm0.Y9IDjeh7yOCc11FZFhrh.zgsjfy",
+    "Perfil": "aluno",
+    "Nome": "TESTEEEE",
+    "AlunoId": "",
+    "TurmaId": 3,
+    "Id": 11
   }
 ]

@@ -4,7 +4,6 @@ using Projeto.Models;
 using Projeto.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 
 public class AlunoController : Controller
@@ -17,7 +16,7 @@ public class AlunoController : Controller
     [HttpGet]
     public IActionResult Dashboard()
     {
-        var email = User.FindFirst(ClaimTypes.Name)?.Value;
+        var email = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (email == null)
             return RedirectToAction("Login", "HelloWorld");
 
@@ -30,25 +29,70 @@ public class AlunoController : Controller
                                     .FirstOrDefault(t => t.Id == usuario.TurmaId);
 
         ViewBag.Turma = turmaAluno;
-
-        return View(usuario); 
+        return View(usuario);
     }
 
     [HttpGet]
+    [HttpGet]
     public IActionResult Atividades()
     {
-        var email = User.FindFirst(ClaimTypes.Name)?.Value;
+        // Pega o email do usuário logado
+        var email = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(email))
+            return RedirectToAction("Login", "HelloWorld");
+
+        // Busca o usuário pelo email
         var usuario = _repoUsuarios.CarregarUsuarios()
-                                   .FirstOrDefault(u => u.Email == email);
+            .FirstOrDefault(u => u.Email == email);
+
         if (usuario == null)
             return RedirectToAction("Login", "HelloWorld");
 
+        // Filtra atividades da turma do usuário
         var atividades = _repoAtividades.Carregar()
-                                        .Where(a => a.TurmaId == usuario.TurmaId)
-                                        .ToList();
+            .Where(a => a.TurmaId == usuario.TurmaId)
+            .ToList();
 
+        // Passa a lista de atividades para a view
         return View(atividades);
     }
+
+    public IActionResult Turmas(int? id)
+    {
+        // Pega o email do usuário logado
+        var email = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(email))
+            return RedirectToAction("Login", "HelloWorld");
+
+        // Busca o usuário
+        var usuario = _repoUsuarios.CarregarUsuarios()
+            .FirstOrDefault(u => u.Email == email);
+
+        if (usuario == null)
+            return RedirectToAction("Login", "HelloWorld");
+
+        // Carrega todas as turmas
+        var todasTurmas = _repoTurmas.CarregarTurmas();
+
+        // Seleciona apenas a turma do aluno
+        Projeto.Models.Turma turmaSelecionada = null;
+        if (id.HasValue)
+        {
+            turmaSelecionada = todasTurmas.FirstOrDefault(t => t.Id == id && t.Id == usuario.TurmaId);
+
+            if (turmaSelecionada == null)
+            {
+                // Se tentou acessar outra turma que não é dele
+                return RedirectToAction("Dashboard", "Aluno");
+            }
+        }
+
+        ViewBag.TurmaSelecionada = turmaSelecionada;
+
+        return View(todasTurmas);
+    }
+
 
 
     [HttpGet]
@@ -66,17 +110,15 @@ public class AlunoController : Controller
         return View(vm);
     }
 
-    // Enviar resposta da atividade (POST)
     [HttpPost]
     public async Task<IActionResult> EnviarAtividade(EntregaAlunoViewModel vm)
     {
-        var emailAluno = User.FindFirst(ClaimTypes.Name)?.Value;
+        var emailAluno = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var aluno = _repoUsuarios.CarregarUsuarios().FirstOrDefault(u => u.Email == emailAluno);
         if (aluno == null) return Unauthorized();
 
         string? caminhoArquivo = null;
 
-        // Salvar arquivo, se houver
         if (vm.ArquivoAluno != null && vm.ArquivoAluno.Length > 0)
         {
             var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
@@ -91,7 +133,7 @@ public class AlunoController : Controller
                 await vm.ArquivoAluno.CopyToAsync(stream);
             }
 
-            caminhoArquivo = "/uploads/" + fileName; // caminho virtual
+            caminhoArquivo = "/uploads/" + fileName;
         }
 
         var entregas = _repoEntregas.Carregar();
@@ -102,7 +144,7 @@ public class AlunoController : Controller
         {
             Id = novoId,
             AtividadeId = vm.AtividadeId,
-            NomeAluno = string.IsNullOrWhiteSpace(aluno.Nome) ? aluno.Email : aluno.Nome,
+            NomeAluno = aluno.Email,
             RespostaAluno = vm.RespostaAluno,
             Nota = null,
             FeedbackProfessor = string.Empty,
@@ -115,15 +157,14 @@ public class AlunoController : Controller
 
         return RedirectToAction("Atividades");
     }
-
-
-    // notas do aluno 
     [HttpGet]
-    // GET: Aluno/Notas
+
+
+
     [HttpGet]
     public IActionResult Notas()
     {
-        var emailAluno = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value;
+        var emailAluno = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (emailAluno == null)
             return RedirectToAction("Login", "HelloWorld");
 
@@ -132,46 +173,18 @@ public class AlunoController : Controller
         if (aluno == null)
             return RedirectToAction("Login", "HelloWorld");
 
-        // Pega todas as entregas do aluno
         var entregasAluno = _repoEntregas.Carregar()
-       .Where(e => e.NomeAluno == aluno.Email) // filtra pelo email do aluno
-       .Select(e => new EntregaViewNota
-       {
-           AtividadeId = e.AtividadeId,
-           RespostaAluno = e.RespostaAluno,
-           Nota = e.Nota,
-           FeedbackProfessor = e.FeedbackProfessor
-       })
-       .ToList();
+            .Where(e => e.NomeAluno == aluno.Email)
+
+            .Select(e => new EntregaViewNota
+            {
+                AtividadeId = e.AtividadeId,
+                RespostaAluno = e.RespostaAluno,
+                Nota = e.Nota,
+                FeedbackProfessor = e.FeedbackProfessor
+            })
+            .ToList();
 
         return View(entregasAluno);
-    }   
-        public async Task<IActionResult> Upload(EntregaAlunoViewModel vm)
-        {
-            if (vm.ArquivoAluno != null && vm.ArquivoAluno.Length > 0)
-            {
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-                if (!Directory.Exists(uploadsFolder))
-                    Directory.CreateDirectory(uploadsFolder);
-
-                var fileName = Path.GetFileName(vm.ArquivoAluno.FileName);
-                var filePath = Path.Combine(uploadsFolder, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await vm.ArquivoAluno.CopyToAsync(stream);
-                }
-
-                // salva caminho relativo com barra inicial
-                vm.CaminhoArquivo = "/uploads/" + fileName;
-                ViewBag.Mensagem = "Arquivo enviado com sucesso!";
-                ViewBag.CaminhoArquivo = vm.CaminhoArquivo; // vai preencher o campo oculto no form
-            }
-            else
-            {
-                ViewBag.Mensagem = "Nenhum arquivo selecionado.";
-            }
-
-            return View("EnviarAtividade", vm); // volta pra mesma view
-        }
     }
+}

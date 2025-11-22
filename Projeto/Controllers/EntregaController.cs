@@ -47,12 +47,18 @@ public class EntregaController : Controller
 
     // Método GET para o professor ver todas as entregas
     [HttpGet]
-    public IActionResult Corrigir()
+    [HttpGet]
+    public IActionResult Corrigir(int id)
     {
-        var entregas = _repoEntregas.Carregar();
-        var atividades = _repoAtividades.Carregar();
+        var atividade = _repoAtividades.Carregar().FirstOrDefault(a => a.Id == id);
 
-        // Converte para ViewModel com título da atividade
+        if (atividade == null)
+            return NotFound("Atividade não encontrada.");
+
+        var entregas = _repoEntregas.Carregar()
+            .Where(e => e.AtividadeId == id)
+            .ToList();
+
         var vmList = entregas.Select(e => new EntregaCorrigirViewModel
         {
             Id = e.Id,
@@ -64,8 +70,9 @@ public class EntregaController : Controller
             FeedbackProfessor = e.FeedbackProfessor
         }).ToList();
 
-        return View(vmList); // Passa a lista para a view Corrigir
+        return View(vmList);
     }
+
 
     public IActionResult SalvarCorrecao(int id, double nota, string feedbackProfessor)
     {
@@ -82,10 +89,11 @@ public class EntregaController : Controller
         return RedirectToAction("Corrigir");
     }
     [HttpPost]
+    [HttpPost]
     public IActionResult Corrigir(EntregaCorrigirViewModel vm)
     {
         var entregas = _repoEntregas.Carregar();
-        var entrega = entregas.FirstOrDefault(e => e.Id == vm.Id); // <-- aqui pega o id correto
+        var entrega = entregas.FirstOrDefault(e => e.Id == vm.Id);
 
         if (entrega == null)
             return NotFound("Entrega não encontrada!");
@@ -95,6 +103,6 @@ public class EntregaController : Controller
 
         _repoEntregas.Salvar(entregas);
 
-        return RedirectToAction("Corrigir");
+        return RedirectToAction("Corrigir", new { id = vm.AtividadeId });
     }
 }

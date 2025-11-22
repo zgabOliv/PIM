@@ -1,9 +1,22 @@
-﻿@using System.Security.Claims
+﻿@using Projeto.Data
+@using Projeto.Models
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Dashboard do Professor";
     var nomeUsuario = User.FindFirst(ClaimTypes.Name)?.Value;
+
+    // Carrega turmas do professor logado
+    var repoTurmas = new RepositorioTurmasJson();
+    var repoUsuarios = new RepositorioUsuariosJson();
+    var professor = repoUsuarios.CarregarUsuarios()
+                               .FirstOrDefault(u => u.Email == User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                                                 && u.Perfil == "professor");
+    var turmasDoProfessor = professor != null
+                            ? repoTurmas.Listar().Where(t => t.Professor == professor.Id).ToList()
+                            : new List<Turma>();
 }
+
 
 <div class="container mt-5 text-center">
     <h1 class="mb-4">Bem-vindo, Professor @nomeUsuario 👨‍🏫</h1>
@@ -48,13 +61,22 @@
     <div class="col-md-4 mb-3">
         <div class="card shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">Alunos da Turma</h5>
-                <p class="card-text">Veja todos os alunos cadastrados em suas turmas.</p>
-                <a asp-controller="Turma" asp-action="VerAlunos" asp-route-id="1" class="btn btn-info">
-                    Ver Alunos
-                </a>
+                <h5 class="card-title">Alunos das Minhas Turmas</h5>
+                <p class="card-text">Clique para ver os alunos cadastrados.</p>
 
-
+                @if (turmasDoProfessor.Any())
+                {
+                    @foreach (var turma in turmasDoProfessor)
+                    {
+                        <a asp-controller="Turma" asp-action="VerAlunos" asp-route-id="@turma.Id" class="btn btn-info mb-2">
+                            @turma.Nome
+                        </a>
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-warning mt-2">Você não possui turmas cadastradas ainda.</div>
+                }
             </div>
         </div>
     </div>

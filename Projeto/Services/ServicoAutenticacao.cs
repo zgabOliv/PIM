@@ -25,22 +25,23 @@ namespace Projeto.Services
         /// </summary>
         /// <param name="email">O email do usuário (usado como identificador).</param>
         /// <param name="senha">A senha em texto plano (do formulário).</param>
-        public void RegistrarNovoUsuario(string email, string senha, string perfil, int? turmaId = null, string nome = "")
+        public Usuario RegistrarNovoUsuario(string email, string senha, string perfil, int? turmaId = null, string nome = "")
         {
-            // 1. Gera o Hash da senha usando BCrypt.
             string senhaHash = BCrypt.Net.BCrypt.HashPassword(senha, workFactor: 12);
 
             var novoUsuario = new Usuario
             {
-                Email = email, // Usa o campo Email
-                SenhaHash = senhaHash, // Usa o campo SenhaHash
-                Perfil = perfil, // Define um perfil padrão (ajuste se necessário)
+                Nome = nome,
+                Email = email,
+                SenhaHash = senhaHash,
+                Perfil = string.IsNullOrWhiteSpace(perfil) ? "aluno" : perfil,
                 TurmaId = turmaId
             };
 
-            // 2. Chama o Repositório para salvar o novo usuário no arquivo JSON
             _repo.Adicionar(novoUsuario);
-        }
+
+            return novoUsuario;
+            }
 
         public bool Autenticar(string emailDigitado, string senhaDigitada)
         {

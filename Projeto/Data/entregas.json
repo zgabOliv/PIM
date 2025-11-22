@@ -1,40 +1,32 @@
 [
   {
-    "Id": 4,
-    "AtividadeId": 3,
-    "NomeAluno": "",
-    "RespostaAluno": "dasdasdsa",
-    "Nota": 7,
-    "FeedbackProfessor": "aa",
-    "TituloAtividade": "",
-    "TurmaId": null,
-    "CaminhoArquivo": null
-  },
-  {
-    "Id": 5,
-    "AtividadeId": 3,
-    "NomeAluno": "gabrielrezende8222227@gmail.com",
-    "RespostaAluno": "aaa",
-    "Nota": null,
-    "FeedbackProfessor": "",
-    "TituloAtividade": "AAAA",
-    "TurmaId": 1,
-    "CaminhoArquivo": null
-  },
-  {
-    "Id": 6,
-    "AtividadeId": 3,
-    "NomeAluno": "gabrielrezende8222227@gmail.com",
-    "RespostaAluno": "aa",
-    "Nota": null,
-    "FeedbackProfessor": "",
-    "TituloAtividade": "AAAA",
-    "TurmaId": 1,
-    "CaminhoArquivo": null
-  },
-  {
-    "Id": 4,
+    "Id": 16,
     "AtividadeId": 2,
+    "AlunoId": "",
+    "NomeAluno": "teste1234@gmail.com",
+    "RespostaAluno": "ISSO AI",
+    "Nota": 9,
+    "FeedbackProfessor": "BOA",
+    "TituloAtividade": "aaa",
+    "TurmaId": 3,
+    "CaminhoArquivo": "/uploads/15-22_BR1-3167424737_01 (online-video-cutter.com).mp4"
+  },
+  {
+    "Id": 17,
+    "AtividadeId": 1,
+    "AlunoId": "",
+    "NomeAluno": "gabrielrezende8222227@gmail.com",
+    "RespostaAluno": "BOAAAAAAAAAAAAAAAAAAAAAAA",
+    "Nota": null,
+    "FeedbackProfessor": "",
+    "TituloAtividade": "aaa",
+    "TurmaId": 1,
+    "CaminhoArquivo": null
+  },
+  {
+    "Id": 3,
+    "AtividadeId": 3,
+    "AlunoId": "",
     "NomeAluno": "",
     "RespostaAluno": "",
     "Nota": null,
@@ -44,47 +36,51 @@
     "CaminhoArquivo": null
   },
   {
+    "Id": 4,
+    "AtividadeId": 3,
+    "AlunoId": "",
+    "NomeAluno": "Gabriel Rezende",
+    "RespostaAluno": "",
+    "Nota": null,
+    "FeedbackProfessor": "",
+    "TituloAtividade": "",
+    "TurmaId": null,
+    "CaminhoArquivo": null
+  },
+  {
+    "Id": 5,
+    "AtividadeId": 3,
+    "AlunoId": "",
+    "NomeAluno": "",
+    "RespostaAluno": "",
+    "Nota": null,
+    "FeedbackProfessor": "",
+    "TituloAtividade": "",
+    "TurmaId": null,
+    "CaminhoArquivo": null
+  },
+  {
+    "Id": 6,
+    "AtividadeId": 3,
+    "AlunoId": "",
+    "NomeAluno": "Jorge Everton",
+    "RespostaAluno": "",
+    "Nota": null,
+    "FeedbackProfessor": "",
+    "TituloAtividade": "",
+    "TurmaId": null,
+    "CaminhoArquivo": null
+  },
+  {
     "Id": 7,
-    "AtividadeId": 2,
-    "NomeAluno": "gabrielrezende8222227@gmail.com",
-    "RespostaAluno": "sadfasfsadfad",
+    "AtividadeId": 3,
+    "AlunoId": "",
+    "NomeAluno": "caua lopes",
+    "RespostaAluno": "",
     "Nota": null,
     "FeedbackProfessor": "",
-    "TituloAtividade": "AAAAsadasdasd",
-    "TurmaId": 1,
-    "CaminhoArquivo": "/uploads/Gemini_Generated_Image_z6h04ez6h04ez6h0.png"
-  },
-  {
-    "Id": 8,
-    "AtividadeId": 2,
-    "NomeAluno": "gabrielrezende8222227@gmail.com",
-    "RespostaAluno": "frqedfdsf",
-    "Nota": null,
-    "FeedbackProfessor": "",
-    "TituloAtividade": "AAAAsadasdasd",
-    "TurmaId": 1,
-    "CaminhoArquivo": "/uploads/Gemini_Generated_Image_z6h04ez6h04ez6h0.png"
-  },
-  {
-    "Id": 9,
-    "AtividadeId": 2,
-    "NomeAluno": "gabrielrezende8222227@gmail.com",
-    "RespostaAluno": "asdasdas",
-    "Nota": null,
-    "FeedbackProfessor": "",
-    "TituloAtividade": "AAAAsadasdasd",
-    "TurmaId": 1,
-    "CaminhoArquivo": "/uploads/chatbot.py"
-  },
-  {
-    "Id": 10,
-    "AtividadeId": 2,
-    "NomeAluno": "gabrielrezende8222227@gmail.com",
-    "RespostaAluno": "asdasdas",
-    "Nota": 7,
-    "FeedbackProfessor": "MUITO BOM",
-    "TituloAtividade": "AAAAsadasdasd",
-    "TurmaId": 1,
-    "CaminhoArquivo": "/uploads/chatbot.py"
+    "TituloAtividade": "",
+    "TurmaId": null,
+    "CaminhoArquivo": null
   }
 ]

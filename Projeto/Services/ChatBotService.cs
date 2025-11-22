@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using System.Threading;
+using System.Text;
 
 public class ChatbotService
 {
@@ -12,15 +12,21 @@ public class ChatbotService
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
-            CreateNoWindow = true
+            CreateNoWindow = true,
+
+            // AQUI É O PULO DO GATO:
+            StandardOutputEncoding = Encoding.UTF8,
+            StandardErrorEncoding = Encoding.UTF8
         };
 
         var process = Process.Start(psi);
-        var output = process.StandardOutput.ReadToEnd();
-        var error = process.StandardError.ReadToEnd();
+
+        string output = process.StandardOutput.ReadToEnd();
+        string error = process.StandardError.ReadToEnd();
+
         process.WaitForExit();
 
-        if (!string.IsNullOrEmpty(error))
+        if (!string.IsNullOrWhiteSpace(error))
             return $"Erro no chatbot: {error}";
 
         return output.Trim();

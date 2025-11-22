@@ -1,14 +1,15 @@
-    {"como entro em contato com o suporte?" : "Envie um e-mail para suporte@faculdade.edu.br",
-    "olá" : "Olá! Como posso ajudar você hoje?",
-    "oi" : "Oi! Em que posso ser útil?",
-    "bom dia" : "Bom dia! Espero que você tenha um ótimo dia!",
-    "boa tarde" : "Boa tarde! Como posso ajudar você?",
-    "boa noite" : "Boa noite! Precisa de alguma informação?",
-    "obrigado" : "De nada! Estou aqui para ajudar.",
-    "valeu" : "Por nada! Se precisar de mais alguma coisa, é só avisar.",
-    "ok" : "Ok! Se precisar de mais alguma coisa, estou à disposição.",
-    "tchau" : "Tchau! Tenha um ótimo dia!",
-     "como faço login no site?": "Para fazer login, o usuário deve informar seu e-mail e senha nos campos indicados na tela de login.",
+{
+  "como entro em contato com o suporte?": "Envie um e-mail para suporte@faculdade.edu.br",
+  "olá": "Olá! Como posso ajudar você hoje?",
+  "oi": "Oi! Em que posso ser útil?",
+  "bom dia": "Bom dia! Espero que você tenha um ótimo dia!",
+  "boa tarde": "Boa tarde! Como posso ajudar você?",
+  "boa noite": "Boa noite! Precisa de alguma informação?",
+  "obrigado": "De nada! Estou aqui para ajudar.",
+  "valeu": "Por nada! Se precisar de mais alguma coisa, é só avisar.",
+  "ok": "Ok! Se precisar de mais alguma coisa, estou à disposição.",
+  "tchau": "Tchau! Tenha um ótimo dia!",
+  "como faço login no site?": "Para fazer login, o usuário deve informar seu e-mail e senha nos campos indicados na tela de login.",
   "quem pode acessar o sistema?": "O sistema pode ser acessado por alunos e professores da instituição.",
   "como o sistema identifica se sou aluno ou professor?": "Após o login, o sistema identifica automaticamente se o usuário é aluno ou professor, com base nos dados cadastrados.",
   "como cadastrar um aluno?": "Para cadastrar um aluno, é necessário informar nome completo, curso e período.",
@@ -32,11 +33,11 @@
   "o sistema é rápido?": "Sim. Ele deve responder ao login em até 3 segundos em 95% das tentativas.",
   "quantas pessoas o sistema suporta ao mesmo tempo?": "O sistema foi projetado para suportar pelo menos 200 usuários simultâneos.",
   "o site fica disponível o tempo todo?": "O sistema deve ter 99% de disponibilidade durante o horário comercial.",
-  
+
   "pra que serve o site?": "O site foi desenvolvido para facilitar a comunicação e a organização entre professores e alunos. Nele, os professores podem criar turmas, publicar atividades e avaliar alunos, enquanto os alunos podem enviar tarefas, visualizar notas e participar de chats da turma.",
   "para que serve o site?": "O site serve como uma plataforma educacional que conecta professores e alunos, permitindo criar turmas, enviar atividades e acompanhar notas.",
   "qual a função do site?": "A função do site é integrar alunos e professores em um ambiente virtual de aprendizado, com turmas, tarefas e chat.",
   "o que o site faz?": "O site permite gerenciar turmas, enviar atividades, corrigir tarefas e manter comunicação entre alunos e professores.",
   "para que esse site foi criado?": "O site foi criado para ajudar no gerenciamento de turmas, atividades e comunicação entre professores e alunos."
 
-  }
+}

@@ -65,14 +65,44 @@ namespace Projeto.Data
         {
             var usuarios = CarregarUsuarios();
 
-
             if (usuarios.Any(u => u.Email.Equals(novoUsuario.Email, StringComparison.OrdinalIgnoreCase)))
-            {
                 throw new InvalidOperationException("Email já cadastrado. Não é possível adicionar.");
-            }
+
+            novoUsuario.Id = usuarios.Any()
+                ? usuarios.Max(u => u.Id) + 1
+                : 1;
 
             usuarios.Add(novoUsuario);
             SalvarUsuarios(usuarios);
         }
+        public Usuario BuscarPorId(int id)
+        {
+            var usuarios = CarregarUsuarios();
+            return usuarios.FirstOrDefault(u => u.Id == id);
+        }
+        public void Salvar(Usuario usuarioEditado)
+        {
+            var usuarios = CarregarUsuarios();
+
+            var index = usuarios.FindIndex(u => u.Id == usuarioEditado.Id);
+            if (index == -1)
+                throw new InvalidOperationException("Usuário não encontrado.");
+
+            usuarios[index] = usuarioEditado;
+            SalvarUsuarios(usuarios);
+        }
+        public void AtualizarSenha(int id, string novaSenhaHash)
+        {
+            var usuarios = CarregarUsuarios();
+            var usuario = usuarios.FirstOrDefault(u => u.Id == id);
+
+            if (usuario == null)
+                throw new InvalidOperationException("Usuário não encontrado.");
+
+            usuario.SenhaHash = novaSenhaHash;
+            SalvarUsuarios(usuarios);
+        }
+
+
     }
 }

@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public int AtividadeId { get; set; }
+        public string AlunoId { get; set; } = string.Empty;
         public string NomeAluno { get; set; } = string.Empty; 
         public string RespostaAluno { get; set; } = string.Empty;
         public double? Nota { get; set; }

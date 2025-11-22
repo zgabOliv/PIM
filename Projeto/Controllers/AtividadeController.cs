@@ -58,9 +58,46 @@ public class AtividadeController : Controller
     }
 
     [HttpGet]
+    [HttpGet]
+    [HttpGet]
     public IActionResult Index()
     {
-        var atividades = _repo.Carregar();
-        return View(atividades);
+        var userId = int.Parse(User.FindFirst("Id").Value);
+
+        var repoUsuarios = new RepositorioUsuariosJson();
+        var usuario = repoUsuarios.CarregarUsuarios()
+            .FirstOrDefault(u => u.Id == userId);
+
+        if (usuario == null)
+            return Unauthorized();
+
+        var repoTurmas = new RepositorioTurmasJson();
+
+        // Se for professor: pegar todas turmas dele
+        if (usuario.Perfil.ToLower() == "professor")
+        {
+            var turmasDoProfessor = repoTurmas.Listar()
+                .Where(t => t.Professor == usuario.Id)
+                .Select(t => t.Id)
+                .ToList();
+
+            var atividadesProf = _repo.Carregar()
+                .Where(a => turmasDoProfessor.Contains(a.TurmaId))
+                .ToList();
+
+            return View(atividadesProf);
+        }
+
+        // Se for aluno: filtra pela turma única
+        if (usuario.Perfil.ToLower() == "aluno")
+        {
+            var atividadesAluno = _repo.Carregar()
+                .Where(a => a.TurmaId == usuario.TurmaId)
+                .ToList();
+
+            return View(atividadesAluno);
+        }
+
+        return Unauthorized();
     }
 }

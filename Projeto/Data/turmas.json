@@ -4,6 +4,23 @@
     "Nome": "UNIP",
     "Curso": "ADS",
     "Periodo": "Matutino",
-    "Ano": 2025
+    "Ano": 2025,
+    "Professor": 7
+  },
+  {
+    "Id": 2,
+    "Nome": "Engenharia",
+    "Curso": "Tecnologia",
+    "Periodo": "Matutino",
+    "Ano": 2025,
+    "Professor": 6
+  },
+  {
+    "Id": 3,
+    "Nome": "UNIP",
+    "Curso": "Direito",
+    "Periodo": "Matutino",
+    "Ano": 2025,
+    "Professor": 9
   }
 ]

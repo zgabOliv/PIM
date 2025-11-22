@@ -36,6 +36,19 @@ internal class Program
                 options.AccessDeniedPath = "/Home/Index";
             });
 
+        builder.Services.AddSingleton<EmailService>(provider =>
+        {
+            var config = provider.GetRequiredService<IConfiguration>().GetSection("EmailConfig");
+
+            return new EmailService(
+                config["Host"],
+                int.Parse(config["Port"]),
+                config["Email"],
+                config["Senha"],
+                config["Email"]
+            );
+        });
+
 
         var app = builder.Build();
 
@@ -60,10 +73,8 @@ internal class Program
 
         //controle
         app.MapControllerRoute(
-            name: "default",
-        
-            pattern: "{controller=HelloWorld}/{action=Login}/{id?}");
-
+           name: "default",
+           pattern: "{controller=HelloWorld}/{action=Login}/{id?}");
         app.Run();
     }
 }

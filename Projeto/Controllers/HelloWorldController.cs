@@ -25,14 +25,10 @@ namespace Projeto.Controllers
         public async Task<IActionResult> Login()
         {
             if (TempData["MensagemSucesso"] != null)
-            {
                 ViewBag.MensagemSucesso = TempData["MensagemSucesso"];
-            }
 
             if (User.Identity.IsAuthenticated)
-            {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            }
 
             return View();
         }
@@ -40,111 +36,134 @@ namespace Projeto.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string email, string senha)
         {
-            if (_authService.Autenticar(email, senha))
+            var usuario = _authService.ObterUsuarioLogado(email);
+
+            if (usuario == null)
             {
-                var usuario = _authService.ObterUsuarioLogado(email);
-
-                if (usuario == null ||
-                    !(usuario.Perfil.Equals("aluno", StringComparison.OrdinalIgnoreCase) ||
-                      usuario.Perfil.Equals("professor", StringComparison.OrdinalIgnoreCase)))
-                {
-                    ViewBag.Erro = "Perfil de usuário inválido ou não reconhecido. Contate o suporte.";
-                    return View();
-                }
-
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, usuario.Email),
-                    new Claim(ClaimTypes.Name, usuario.Email),
-                    new Claim(ClaimTypes.Role, usuario.Perfil)
-                };
-
-                var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity));
-
-                // Redireciona para a dashboard correta
-                if (usuario.Perfil.Equals("aluno", StringComparison.OrdinalIgnoreCase))
-                {
-                    return RedirectToAction("DashboardAluno", "HelloWorld");
-                }
-                else
-                {
-                    return RedirectToAction("DashboardProfessor", "HelloWorld");
-                }
-            }
-            else
-            {
-                ViewBag.Erro = "E-mail ou senha incorretos!";
+                ViewBag.Erro = "Usuário não encontrado.";
                 return View();
             }
 
+            if (!_authService.Autenticar(email, senha))
+            {
+                ViewBag.Erro = "Senha incorreta.";
+                return View();
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim("Id", usuario.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, usuario.Email),
+                new Claim(ClaimTypes.Name, usuario.Nome ?? usuario.Email),
+                new Claim(ClaimTypes.Role, usuario.Perfil)
+            };
+
+            var identidade = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identidade));
+
+            if (usuario.Perfil == "aluno")
+                return RedirectToAction("DashboardAluno");
+
+            return RedirectToAction("DashboardProfessor");
         }
 
         // ------------------- CADASTRO -------------------
         [HttpGet]
-   
-
         public IActionResult Cadastro()
         {
             var repoTurmas = new RepositorioTurmasJson();
+            var repoUsuarios = new RepositorioUsuariosJson();
+
             ViewBag.Turmas = repoTurmas.Listar();
+
+            var profCount = repoUsuarios.CarregarUsuarios()
+                .Count(u => u.Perfil.Equals("professor", StringComparison.OrdinalIgnoreCase));
+
+            ViewBag.ProfLimitReached = profCount >= 4;
+
             return View();
         }
+
         [HttpPost]
-        [HttpPost]
-        public IActionResult Cadastro(string nome, string email, string senha, string perfil, int? turmaId)
+        public IActionResult Cadastro(string nome, string email, string senha, string perfil, int? turmaId, int? turmaIdProfessor)
         {
             var repoTurmas = new RepositorioTurmasJson();
+            var repoUsuarios = new RepositorioUsuariosJson();
+
+            // sempre recarrega ViewBag em caso de erro
             ViewBag.Turmas = repoTurmas.Listar();
 
-            try
+            var profCount = repoUsuarios.CarregarUsuarios()
+                .Count(u => u.Perfil.Equals("professor", StringComparison.OrdinalIgnoreCase));
+
+            // ---------------- PROFESSOR ----------------
+            if (perfil == "professor")
             {
-                if (perfil.Equals("aluno", StringComparison.OrdinalIgnoreCase) && turmaId.HasValue)
+                if (profCount >= 4)
                 {
-                    _authService.RegistrarNovoUsuario(email, senha, perfil, turmaId.Value, nome);
-                }
-                else
-                {
-                    _authService.RegistrarNovoUsuario(email, senha, perfil, null, nome);
+                    ViewBag.Erro = "Limite de professores atingido.";
+                    return View();
                 }
 
-                TempData["MensagemSucesso"] = "Cadastro realizado com sucesso! Faça login.";
+                if (!turmaIdProfessor.HasValue)
+                {
+                    ViewBag.Erro = "Selecione uma turma.";
+                    return View();
+                }
+
+                var turma = repoTurmas.Listar()
+                    .FirstOrDefault(t => t.Id == turmaIdProfessor.Value);
+
+                if (turma == null)
+                {
+                    ViewBag.Erro = "Turma inválida.";
+                    return View();
+                }
+
+                if (turma.Professor != 0)
+                {
+                    ViewBag.Erro = "Essa turma já tem professor.";
+                    return View();
+                }
+
+                var novoProf = _authService.RegistrarNovoUsuario(email, senha, perfil, turmaIdProfessor.Value, nome);
+
+                turma.Professor = novoProf.Id;
+                repoTurmas.SalvarTurmas(repoTurmas.Listar());
+
+                TempData["MensagemSucesso"] = "Cadastro realizado com sucesso!";
                 return RedirectToAction("Login");
             }
-            catch (InvalidOperationException ex)
+
+            // ---------------- ALUNO ----------------
+            if (!turmaId.HasValue)
             {
-                ViewBag.Erro = ex.Message;
+                ViewBag.Erro = "Selecione uma turma.";
                 return View();
             }
-            catch (Exception ex)
-            {
-                ViewBag.Erro = "Erro interno ao processar o cadastro: " + ex.Message;
-                return View();
-            }
+
+            _authService.RegistrarNovoUsuario(email, senha, perfil, turmaId.Value, nome);
+
+            TempData["MensagemSucesso"] = "Cadastro realizado com sucesso!";
+            return RedirectToAction("Login");
         }
-
-
-
 
         // ------------------- DASHBOARDS -------------------
         [HttpGet]
         public IActionResult DashboardAluno()
         {
-            // 1. Obter o usuário logado
-            var emailUsuario = User.FindFirst(ClaimTypes.Name)?.Value;
+            var emailUsuario = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var usuario = _authService.ObterUsuarioLogado(emailUsuario);
 
-            if (usuario == null) return RedirectToAction("Login");
+            if (usuario == null)
+                return RedirectToAction("Login");
 
-            // 2. Buscar a turma do aluno
             var turmasRepo = new RepositorioTurmasJson();
             var turmaAluno = turmasRepo.Listar().FirstOrDefault(t => t.Id == usuario.TurmaId);
 
-            // 3. Buscar atividades da turma do aluno
             var atividadesRepo = new RepositorioAtividades();
             var atividadesAluno = turmaAluno != null
                 ? atividadesRepo.Carregar().Where(a => a.TurmaId == turmaAluno.Id).ToList()
@@ -152,24 +171,17 @@ namespace Projeto.Controllers
 
             ViewBag.Turma = turmaAluno;
             ViewBag.Atividades = atividadesAluno;
+
             return View(usuario);
-
         }
-
 
         [HttpGet]
         public IActionResult DashboardProfessor()
         {
             return View();
         }
-        public IActionResult Perguntar(string pergunta)
-        {
-            var resposta = ChatbotService.ObterResposta(pergunta);
-            return Json(new { resposta });
-        }
 
-
-        // ------------------- LOGOUT -------------------//
+        // ------------------- LOGOUT -------------------
         [HttpGet]
         public async Task<IActionResult> Logout()
         {

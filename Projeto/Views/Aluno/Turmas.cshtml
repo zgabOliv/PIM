@@ -1,0 +1,71 @@
+﻿@model List<Projeto.Models.Turma>
+@using Projeto.Data
+@using Projeto.Models
+
+@{
+    var turmaSelecionada = ViewBag.TurmaSelecionada as Turma;
+    var alunosDaTurma = new List<Usuario>();
+
+    // Só busca os alunos se tiver turma selecionada
+    if (turmaSelecionada != null)
+    {
+        alunosDaTurma = new RepositorioUsuariosJson()
+                        .CarregarUsuarios()
+                        .Where(a => a.TurmaId == turmaSelecionada.Id && a.Perfil == "aluno")
+                        .ToList();
+    }
+}
+
+<div class="container py-4">
+    @if (turmaSelecionada == null)
+    {
+        <h2 class="mb-3">Minhas Turmas</h2>
+
+        @if (Model != null && Model.Any())
+        {
+            <ul class="list-group">
+                @foreach (var turma in Model)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>@turma.Nome</strong><br />
+                            <small class="text-muted">@turma.Curso</small>
+                        </div>
+                        <a asp-controller="Aluno" asp-action="Turmas" asp-route-id="@turma.Id" class="btn btn-sm btn-primary">
+                            Ver Turma
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="alert alert-warning">Você não tem nenhuma turma.</div>
+        }
+    }
+    else
+    {
+        <h2 class="mb-2">@turmaSelecionada.Nome</h2>
+        <p class="text-muted"><strong>Curso:</strong> @turmaSelecionada.Curso</p>
+        <p class="text-muted"><strong>Período:</strong> @turmaSelecionada.Periodo</p>
+        <p class="text-muted"><strong>Ano:</strong> @turmaSelecionada.Ano</p>
+
+
+
+        <h3>Alunos desta turma</h3>
+        @if (alunosDaTurma.Any())
+        {
+            <ul class="list-group">
+                @foreach (var aluno in alunosDaTurma)
+                {
+                    <li class="list-group-item">@aluno.Nome</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="alert alert-info">Nenhum aluno cadastrado nesta turma.</div>
+        }
+        <a asp-controller="HelloWorld" asp-action="DashboardAluno" class="btn btn-secondary">Voltar ao Dashboard</a>
+    }
+</div>

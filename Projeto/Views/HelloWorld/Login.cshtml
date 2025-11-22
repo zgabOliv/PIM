@@ -1,9 +1,7 @@
-﻿@*  *@
-@{
+﻿@{
     ViewData["Title"] = "Login";
 }
 
-@*  *@
 @if (TempData["MensagemSucesso"] != null)
 {
     <div style="color: green; margin-bottom: 15px;">
@@ -11,7 +9,6 @@
     </div>
 }
 
-@*  *@
 @if (ViewBag.Erro != null)
 {
     <div style="color: red; margin-bottom: 15px;">
@@ -21,7 +18,6 @@
 
 <h2>Login</h2>
 
-@*  *@
 <form method="post" asp-controller="HelloWorld" asp-action="Login">
     <label for="email">E-mail:</label><br>
     <input type="email" id="email" name="email" required><br><br>
@@ -37,5 +33,20 @@
     <a asp-controller="Chat" asp-action="Chat" class="btn btn-outline-success w-100">
         💬 Falar com o Chatbot
     </a>
-    </div>
+</div>
+
+<!-- Botão do Suporte -->
+<div class="text-center mt-2">
+    <a href="https://wa.me/13996210572" target="_blank" class="btn btn-outline-primary w-100">
+        📞 Falar com o Suporte (WhatsApp)
+    </a>
+</div>
+<p>
+    <a asp-controller="Conta" asp-action="EsqueceuSenha">Esqueci minha senha</a>
+
+        Esqueci minha senha
+    </a>
+</p>
+
+
 <p>Não tem uma conta? <a asp-controller="HelloWorld" asp-action="Cadastro">Cadastre-se aqui</a></p>

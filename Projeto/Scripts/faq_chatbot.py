@@ -1,5 +1,9 @@
 import json
 from rapidfuzz import fuzz
+import io, sys
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
 
 
 with open('faq.json', 'r', encoding='utf-8') as f:
@@ -11,7 +15,7 @@ def responder(pergunta):
     melhor_similaridade = 0
 
     for q, resposta in faq_data.items():
-        similaridade = fuzz.ratio(pergunta, q.lower())
+        similaridade = fuzz.partial_ratio(pergunta, q.lower())
         if similaridade > melhor_similaridade:
             melhor_similaridade = similaridade
             melhor_pergunta = q

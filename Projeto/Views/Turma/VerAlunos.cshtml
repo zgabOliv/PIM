@@ -1,7 +1,8 @@
-﻿@model List<Usuario>
+﻿@model List<Projeto.Models.Usuario>
+@using Projeto.Models
 
 <div class="container mt-4">
-    <h2 class="text-center mb-4">🎓 Alunos da Turma</h2>
+    <h2 class="text-center mb-4">🎓 Alunos da Turma @ViewBag.NomeTurma</h2>
 
     @if (Model != null && Model.Any())
     {
@@ -11,7 +12,7 @@
                 <div class="col-md-4 mb-3">
                     <div class="card shadow-sm border-0 rounded-3">
                         <div class="card-body text-center">
-                            <h5 class="card-title">@aluno.Email</h5>
+                            <h5 class="card-title">@(!string.IsNullOrEmpty(aluno.Nome) ? aluno.Nome : aluno.Email)</h5>
                         </div>
                     </div>
                 </div>
@@ -20,8 +21,8 @@
     }
     else
     {
-        <div class="alert alert-warning text-center mt-3">
-            <strong>⚠ Nenhum aluno cadastrado nesta turma ainda.</strong>
+        <div class="alert alert-info text-center mt-3">
+            ⚠ Nenhum aluno cadastrado nesta turma ainda.
         </div>
     }
 </div>
@@ -45,3 +46,4 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 </style>
+<a asp-controller="HelloWorld" asp-action="DashboardProfessor" class="btn btn-secondary">Voltar ao Dashboard</a>
