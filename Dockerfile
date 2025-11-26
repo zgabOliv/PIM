@@ -8,9 +8,9 @@ WORKDIR /src
 # copia tudo
 COPY . .
 
-# restaura e publica usando o caminho correto
-RUN dotnet restore Projeto\Projeto.csproj
-RUN dotnet publish Projeto\Projeto.csproj -c Release -o /app/publish
+# restaura e publica usando o caminho correto (barra normal)
+RUN dotnet restore Projeto/Projeto.csproj
+RUN dotnet publish Projeto/Projeto.csproj -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
