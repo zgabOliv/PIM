@@ -27,14 +27,21 @@ internal class Program
         // 2. CONFIGURAÇÃO DO ESQUEMA DE AUTENTICAÇÃO
         // ----------------------------------------------------
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(options =>
-            {
-                // Define o caminho para onde o usuário deve ser redirecionado se tentar acessar uma área protegida
-                options.LoginPath = "/HelloWorld/Login";
-                options.Cookie.Name = "LoginCookie";
-                // Garante que o usuário que tentar acessar uma Dashboard sem Role correta seja redirecionado
-                options.AccessDeniedPath = "/Home/Index";
-            });
+        .AddCookie(options =>
+        {
+            options.LoginPath = "/HelloWorld/Login";
+            options.Cookie.Name = "LoginCookie";
+            options.AccessDeniedPath = "/Home/Index";
+
+            // EXPIRAÇÃO DA SESSÃO, FINALMENTE
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+
+            // Renova a sessão se o usuário estiver ativo
+            options.SlidingExpiration = true;
+
+            // Segurança básica para o cookie
+            options.Cookie.HttpOnly = true;
+        });
 
         builder.Services.AddSingleton<EmailService>(provider =>
         {

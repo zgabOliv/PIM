@@ -101,7 +101,10 @@ namespace Projeto.Controllers
             if (dados == null || dados.ExpiraEm < DateTime.Now)
                 return View("TokenInvalido");
 
-            var usuario = _repoUsuarios.EncontrarPorEmail(dados.UsuarioId);
+            var usuarioId = int.Parse(dados.UsuarioId);
+            var usuario = _repoUsuarios.BuscarPorId(usuarioId);
+
+
             // ajuste para teu método
             if (usuario == null) return View("TokenInvalido");
 

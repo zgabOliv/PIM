@@ -61,8 +61,21 @@ namespace Projeto.Controllers
             var identidade = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identidade));
+           CookieAuthenticationDefaults.AuthenticationScheme,
+           new ClaimsPrincipal(identidade));
+
+            // Log de acesso
+            var repoLogs = new RepositorioLogsJson();
+
+            var log = new LogAcesso
+            {
+                UsuarioId = usuario.Id,
+                DataHora = DateTime.Now,
+                Acao = "Login"
+            };
+
+            repoLogs.Registrar(log);
+
 
             if (usuario.Perfil == "aluno")
                 return RedirectToAction("DashboardAluno");
@@ -70,8 +83,8 @@ namespace Projeto.Controllers
             return RedirectToAction("DashboardProfessor");
         }
 
-        // ------------------- CADASTRO -------------------
-        [HttpGet]
+            // ------------------- CADASTRO -------------------
+            [HttpGet]
         public IActionResult Cadastro()
         {
             var repoTurmas = new RepositorioTurmasJson();
