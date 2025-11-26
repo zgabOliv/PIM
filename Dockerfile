@@ -4,11 +4,17 @@ EXPOSE 10000
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
+
+# copia tudo
 COPY . .
-RUN dotnet restore Projeto.csproj
-RUN dotnet publish Projeto.csproj -c Release -o /app/publish
+
+# restaura e publica usando o caminho correto
+RUN dotnet restore Projeto/Projeto.csproj
+RUN dotnet publish Projeto/Projeto.csproj -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
+
 ENTRYPOINT ["dotnet", "Projeto.dll"]
+
