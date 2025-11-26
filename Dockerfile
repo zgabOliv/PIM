@@ -9,8 +9,8 @@ WORKDIR /src
 COPY . .
 
 # restaura e publica usando o caminho correto
-RUN dotnet restore PIM-Linkando-HTMLS-com-c-digos-C-\Projeto\Projeto.csproj
-RUN dotnet publish PIM-Linkando-HTMLS-com-c-digos-C-\Projeto\Projeto.csproj -c Release -o /app/publish
+RUN dotnet restore Projeto\Projeto.csproj
+RUN dotnet publish Projeto\Projeto.csproj -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
