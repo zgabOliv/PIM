@@ -5,27 +5,26 @@ using System;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 
-
 internal class Program
 {
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        // FORÇAR O SERVIDOR A ACEITAR ACESSO DE OUTROS DISPOSITIVOS
+        builder.WebHost.UseUrls("http://0.0.0.0:5000");
+
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
         // ----------------------------------------------------
         // 1. INJEÇÃO DE DEPENDÊNCIA (DI)
-        // O código de criação de usuário TEMPORÁRIO FOI REMOVIDO DAQUI.
-        // ----------------------------------------------------
         builder.Services.AddSingleton<RepositorioUsuariosJson>();
         builder.Services.AddSingleton<RepositorioTurmasJson>();
         builder.Services.AddScoped<ServicoAutenticacao>();
 
         // ----------------------------------------------------
         // 2. CONFIGURAÇÃO DO ESQUEMA DE AUTENTICAÇÃO
-        // ----------------------------------------------------
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options =>
         {
@@ -33,7 +32,7 @@ internal class Program
             options.Cookie.Name = "LoginCookie";
             options.AccessDeniedPath = "/Home/Index";
 
-            // EXPIRAÇÃO DA SESSÃO, FINALMENTE
+            // EXPIRAÇÃO DA SESSÃO
             options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 
             // Renova a sessão se o usuário estiver ativo
@@ -56,32 +55,25 @@ internal class Program
             );
         });
 
-
         var app = builder.Build();
 
- 
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Home/Error");
             app.UseHsts();
         }
 
-        app.UseHttpsRedirection();
-
-        // Essencial para carregar arquivos CSS, JS e Views:
+      //  app.UseHttpsRedirection();
         app.UseStaticFiles();
-
         app.UseRouting();
-
-
         app.UseAuthentication();
         app.UseAuthorization();
 
-
-        //controle
+        // Rotas
         app.MapControllerRoute(
            name: "default",
            pattern: "{controller=HelloWorld}/{action=Login}/{id?}");
+
         app.Run();
     }
 }

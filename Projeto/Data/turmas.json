@@ -22,5 +22,13 @@
     "Periodo": "Matutino",
     "Ano": 2025,
     "Professor": 9
+  },
+  {
+    "Id": 4,
+    "Nome": "ADS",
+    "Curso": "ads",
+    "Periodo": "3",
+    "Ano": 2026,
+    "Professor": 7
   }
 ]

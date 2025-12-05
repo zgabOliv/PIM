@@ -3,8 +3,6 @@ using Microsoft.Extensions.Logging;
 using Projeto.Data;
 using Projeto.Models;
 using System.Security.Claims;
-
-
 public class TurmaController : Controller
 {
     private readonly RepositorioTurmasJson _repo;
@@ -55,8 +53,6 @@ public class TurmaController : Controller
         return View(alunosDaTurma);
     }
 
-
-
     public IActionResult Detalhes(int id)
     {
         var turma = _repo.Listar().FirstOrDefault(t => t.Id == id);
@@ -73,10 +69,7 @@ public class TurmaController : Controller
         return View();
     }
 
-    [HttpGet]
-    [HttpGet]
-    [HttpGet]
-    [HttpGet]
+ 
     [HttpGet]
     public IActionResult Index()
     {
@@ -110,7 +103,6 @@ public class TurmaController : Controller
 
         return View(turmasDoProfessor);
     }
-
 
 
 

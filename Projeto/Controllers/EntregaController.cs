@@ -89,7 +89,7 @@ public class EntregaController : Controller
         return RedirectToAction("Corrigir");
     }
     [HttpPost]
-    [HttpPost]
+  
     public IActionResult Corrigir(EntregaCorrigirViewModel vm)
     {
         var entregas = _repoEntregas.Carregar();

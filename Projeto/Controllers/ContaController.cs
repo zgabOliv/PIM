@@ -36,7 +36,7 @@ namespace Projeto.Controllers
         {
             if (string.IsNullOrEmpty(email)) return View("EsqueceuSenha");
 
-            var usuario = _repoUsuarios.EncontrarPorEmail(email); // ajuste para o método que tu tem
+            var usuario = _repoUsuarios.EncontrarPorEmail(email); 
             // não fala que o email não existe — evita enumerar usuários
             if (usuario == null)
             {
@@ -105,13 +105,13 @@ namespace Projeto.Controllers
             var usuario = _repoUsuarios.BuscarPorId(usuarioId);
 
 
-            // ajuste para teu método
+            // ajuste
             if (usuario == null) return View("TokenInvalido");
 
             // hash da senha com BCrypt
             usuario.SenhaHash = BCrypt.Net.BCrypt.HashPassword(model.NovaSenha);
 
-            _repoUsuarios.Salvar(usuario); // método que já deve existir no teu repo
+            _repoUsuarios.Salvar(usuario);
 
             _repoTokens.Remover(model.Token);
 

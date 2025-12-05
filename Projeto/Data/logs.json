@@ -8,5 +8,70 @@
     "UsuarioId": 7,
     "DataHora": "2025-11-25T15:21:41.1500397-03:00",
     "Acao": "Login"
+  },
+  {
+    "UsuarioId": 7,
+    "DataHora": "2025-11-26T18:03:39.5542587-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 7,
+    "DataHora": "2025-11-26T18:32:00.3915907-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 12,
+    "DataHora": "2025-11-26T18:32:21.0739692-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 13,
+    "DataHora": "2025-11-28T08:50:27.4979755-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 13,
+    "DataHora": "2025-11-28T08:51:49.7017622-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 7,
+    "DataHora": "2025-11-28T08:54:34.123269-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 7,
+    "DataHora": "2025-11-30T12:49:49.0030278-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 3,
+    "DataHora": "2025-11-30T12:51:46.1999331-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 7,
+    "DataHora": "2025-12-01T20:29:32.6055636-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 7,
+    "DataHora": "2025-12-01T20:29:49.9933382-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 7,
+    "DataHora": "2025-12-02T09:37:48.2170898-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 7,
+    "DataHora": "2025-12-02T09:37:48.6481261-03:00",
+    "Acao": "Login"
+  },
+  {
+    "UsuarioId": 15,
+    "DataHora": "2025-12-02T09:42:43.5526433-03:00",
+    "Acao": "Login"
   }
 ]
